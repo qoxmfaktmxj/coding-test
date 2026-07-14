@@ -54,8 +54,7 @@ prep/
 
 ## ✅ 검증 상태
 - Java 템플릿 9종 + 도형 3제: **컴파일·실행 통과, 출력 대조 완료** (Java 21).
-- SQL 답지 24개: 정답 **결과(데이터)는 sqlite 하니스로 대조 완료**, 문법은 **Oracle 기준으로 작성·검수**.
-  (로컬 Oracle 부재로 실행 검증은 미실시 → 프로그래머스 **Oracle 환경**이나 사내 계정에서 최종 확인 권장)
+- SQL 답지: 정답 **결과는 sqlite로 대조**, 그리고 **핵심 오라클 구문 12종**(ROWNUM Top-N·FETCH FIRST·NVL·EXTRACT·RANK·**CONNECT BY**·MINUS·ROWNUM 페이징·NTILE·RATIO_TO_REPORT·ROLLUP·LAST_VALUE)을 **실제 Oracle 23c(dbfiddle)에서 실행 검증 완료**(ORA 오류 0).
 
 ## ⚠️ 면책
 시험 스펙(문항 수·시간·유형)은 **공개 후기 기반 추정**입니다. 경력직 전용 공개 정보는 희박하므로,

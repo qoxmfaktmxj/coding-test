@@ -24,4 +24,4 @@
 - Java 답지 11종: **컴파일·실행·출력 대조 완료**
 - SQL 답지(심화 15 + 모의 2): **결과 sqlite 대조 완료**, 문법 Oracle 검수
 
-> ⚠️ SQL 실행검증은 로컬 Oracle 부재로 미실시 — 프로그래머스 Oracle 환경/사내 계정에서 최종 확인 권장.
+> ✅ 핵심 오라클 구문(CONNECT BY·MINUS·ROWNUM 페이징·NTILE·RATIO_TO_REPORT·ROLLUP·LAST_VALUE 등)은 **실제 Oracle 23c(dbfiddle)에서 실행 검증 완료**. 나머지 표준 쿼리는 sqlite로 결과 대조.
