@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>롯데이노베이트 코테 공략집 2편 (심화)</title>
+<style>
+:root{--bg:#fff;--fg:#1f2328;--muted:#6b7280;--accent:#0b5cad;--accent2:#c8102e;--code-bg:#f6f8fa;--code-fg:#1f2328;--border:#e5e7eb;--quote-bg:#eef4fb;--th:#f3f4f6;}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1115;--fg:#e6e8eb;--muted:#9aa4b2;--accent:#6cb6ff;--accent2:#ff6b81;--code-bg:#161b22;--code-fg:#e6e8eb;--border:#2a2f37;--quote-bg:#12161c;--th:#1c2128;}}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;line-height:1.72;font-size:17px}
+.wrap{max-width:820px;margin:0 auto;padding:18px 16px 80px}
+h1,h2,h3,h4{line-height:1.35;font-weight:700}
+h1{font-size:1.6em;color:var(--accent);margin:.2em 0 .5em}
+h2{font-size:1.3em;margin:1.5em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--border)}
+h3{font-size:1.1em;margin:1.2em 0 .4em;color:var(--accent2)}
+h4{font-size:1em;margin:1em 0 .3em;color:var(--muted)}
+p{margin:.6em 0}a{color:var(--accent);text-decoration:none}.deadlink{color:var(--muted);cursor:default}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:.12em .35em;border-radius:5px;font-size:.86em}
+pre{background:var(--code-bg);color:var(--code-fg);padding:12px 14px;border-radius:10px;overflow-x:auto;border:1px solid var(--border);font-size:13.5px;line-height:1.55;-webkit-overflow-scrolling:touch}
+pre code{background:none;padding:0;font-size:inherit}
+blockquote{margin:.8em 0;padding:.5em .9em;background:var(--quote-bg);border-left:4px solid var(--accent);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:.7em 0;border:1px solid var(--border);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9em}th,td{border:1px solid var(--border);padding:7px 9px;text-align:left;vertical-align:top}th{background:var(--th);font-weight:700}
+ul,ol{padding-left:1.35em;margin:.5em 0}li{margin:.25em 0}
+hr{border:0;border-top:1px dashed var(--border);margin:1.6em 0}
+.cover{padding:26px 18px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(135deg,var(--quote-bg),transparent);margin-bottom:8px}
+.cover h1{margin-top:0;font-size:1.9em}.cover .sub{color:var(--muted);margin:.2em 0 .8em}
+.badge{display:inline-block;font-size:.72em;background:var(--accent);color:#fff;padding:.15em .6em;border-radius:999px;margin:.1em .2em .1em 0}.badge.b2{background:var(--accent2)}
+.toc{margin:14px 0;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--code-bg)}
+.toc h2{border:0;margin:.1em 0 .5em;font-size:1.05em}.toc ol{list-style:none;padding:0;margin:0}.toc li{margin:.15em 0}
+.toc a{display:block;padding:.35em .2em;border-bottom:1px solid var(--border)}.toc .n{display:inline-block;min-width:2.1em;color:var(--accent);font-weight:700}
+.chapter{padding-top:10px;margin-top:26px;border-top:3px solid var(--accent)}
+.chtag{font-size:.72em;letter-spacing:.12em;color:var(--muted);font-weight:700;margin-bottom:-.3em}
+.totop{display:inline-block;margin-top:18px;font-size:.85em;color:var(--muted)}
+.task-list-item{list-style:none}
+</style>
+</head><body><a id="top"></a><div class="wrap">
+<div class="cover">
+<h1>롯데이노베이트 코딩테스트 공략집 <small>2편 · 심화</small></h1>
+<div class="sub">심화 문제집 + 실전 모의고사 — 경력직 변별 포인트</div>
+<span class="badge">SQL 심화 15</span><span class="badge">알고 심화 11</span>
+<span class="badge b2">모의고사 2세트</span><span class="badge b2">Oracle · Java 검증</span>
+<p style="font-size:.9em;color:var(--muted);margin-top:.8em">1편(기본기)을 먼저 보세요. 스키마는 1편과 동일합니다.
+Java 답지는 컴파일·실행 검증, SQL 결과는 sqlite 대조·문법 Oracle 검수.</p>
+</div>
+<nav class="toc"><h2>목차</h2><ol><li><a href="#ch0"><span class="n">01</span> 📖 2편 안내</a></li><li><a href="#ch1"><span class="n">02</span> SQL 심화 ① 분석함수 (Oracle)</a></li><li><a href="#ch2"><span class="n">03</span> SQL 심화 ② 계층·집합·페이징</a></li><li><a href="#ch3"><span class="n">04</span> SQL 심화 ③ 고급 분석함수</a></li><li><a href="#ch4"><span class="n">05</span> 알고리즘 심화 ① 문자열·시뮬·스택</a></li><li><a href="#ch5"><span class="n">06</span> 알고리즘 심화 ② 탐색·그리디·이분</a></li><li><a href="#ch6"><span class="n">07</span> 알고리즘 심화 ③ DP 핵심</a></li><li><a href="#ch7"><span class="n">08</span> 📝 실전 모의고사 #2</a></li><li><a href="#ch8"><span class="n">09</span> 📝 실전 모의고사 #3</a></li></ol></nav>
+<section id="ch0" class="chapter"><div class="chtag">CH 01</div><h1 id="2">📖 롯데이노베이트 코테 공략집 — 2편 (심화)</h1>
+<blockquote>
+<p>1편(기본기·유형)을 뗐다는 전제의 <strong>심화 문제집 + 실전 모의고사</strong> 편입니다.
+경력직 변별 포인트(분석함수·계층쿼리·파라메트릭 서치)에 집중. <strong>SQL은 Oracle</strong>, 스키마는 1편 <a href="javascript:void(0)" class="deadlink">schema.sql</a> 그대로.</p>
+</blockquote>
+<h2 id="_1">구성</h2>
+<div class="tblwrap"><table>
+<thead>
+<tr>
+<th>파트</th>
+<th>파일</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQL 심화 ①</td>
+<td><a href="#ch1">sql_심화_01_분석함수</a></td>
+<td>다중조인 집계, LAG, 누적합, 그룹별 상위N, 월별 전월대비</td>
+</tr>
+<tr>
+<td>SQL 심화 ②</td>
+<td><a href="#ch2">sql_심화_02_계층_집합_페이징</a></td>
+<td>CONNECT BY 계층, 셀프조인, NOT EXISTS, MINUS, ROWNUM 페이징</td>
+</tr>
+<tr>
+<td>SQL 심화 ③</td>
+<td><a href="#ch3">sql_심화_03_고급분석</a></td>
+<td>NTILE, FIRST/LAST_VALUE, RATIO_TO_REPORT, ROLLUP, LISTAGG</td>
+</tr>
+<tr>
+<td>알고 심화 ①</td>
+<td><a href="#ch4">algo_심화_01_문자열_시뮬_스택</a></td>
+<td>문자열 압축, 행렬 90도 회전, 올바른 괄호</td>
+</tr>
+<tr>
+<td>알고 심화 ②</td>
+<td><a href="#ch5">algo_심화_02_탐색_그리디_이분</a></td>
+<td>슬라이딩 윈도우, 타겟넘버 DFS, 구명보트, 랜선 자르기</td>
+</tr>
+<tr>
+<td>알고 심화 ③</td>
+<td><a href="#ch6">algo_심화_03_DP_그래프</a></td>
+<td>편집거리, LIS, 2×N 타일링, 동전 교환(DP)</td>
+</tr>
+<tr>
+<td>실전</td>
+<td><a href="#ch7">실전모의고사_02</a> · <a href="#ch8">실전모의고사_03</a></td>
+<td>SQL1+알고2, 120분 × 2세트</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="_2">이 편의 핵심 무기 (경력직 어필 포인트)</h2>
+<ul>
+<li><strong>분석함수</strong>: <code>RANK/ROW_NUMBER</code>, <code>LAG/LEAD</code>, <code>SUM() OVER(ORDER BY)</code> 누적합</li>
+<li><strong>오라클 고유</strong>: <code>CONNECT BY</code>(계층), <code>MINUS</code>(차집합), <code>ROWNUM</code>(페이징 3단 구조)</li>
+<li><strong>알고리즘 결정打</strong>: 파라메트릭 서치, 슬라이딩 윈도우, DFS 완전탐색</li>
+</ul>
+<h2 id="_3">검증</h2>
+<ul>
+<li>Java 답지 11종: <strong>컴파일·실행·출력 대조 완료</strong></li>
+<li>SQL 답지(심화 15 + 모의 2): <strong>결과 sqlite 대조 완료</strong>, 문법 Oracle 검수</li>
+</ul>
+<blockquote>
+<p>⚠️ SQL 실행검증은 로컬 Oracle 부재로 미실시 — 프로그래머스 Oracle 환경/사내 계정에서 최종 확인 권장.</p>
+</blockquote><a class="totop" href="#top">↑ 목차</a></section><section id="ch1" class="chapter"><div class="chtag">CH 02</div><h1 id="2-sql-1-oracle">2편 · SQL 심화 (1) 집계 &amp; 분석함수 (Oracle)</h1>
+<blockquote>
+<p>1편 기본기 위에 <strong>경력직 변별 포인트</strong>(윈도우/분석함수)를 얹습니다. 스키마는 1편 <a href="javascript:void(0)" class="deadlink">schema.sql</a> 동일.
+모든 결과는 검증 완료. 문법은 Oracle.</p>
+</blockquote>
+<hr />
+<h2 id="1-having">문제 1. 단골 회원 매출 (다중조인 + 집계 + HAVING)</h2>
+<blockquote>
+<p><strong>완료 주문 기준</strong>, <strong>주문을 2건 이상</strong> 한 회원의 <code>회원ID·주문건수·총매출</code>을 매출 내림차순으로.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">SELECT o.member_id,
+       COUNT(DISTINCT o.order_id)   AS cnt,
+       SUM(oi.quantity * p.price)   AS amt
+FROM ORDERS o
+JOIN ORDER_ITEM oi ON o.order_id   = oi.order_id
+JOIN PRODUCT p     ON oi.product_id = p.product_id
+WHERE o.status = '완료'
+GROUP BY o.member_id
+HAVING COUNT(DISTINCT o.order_id) &gt;= 2
+ORDER BY amt DESC;
+</code></pre>
+<p><strong>해설</strong>
+- 조인으로 행이 뻥튀기되므로 주문 건수는 <code>COUNT(DISTINCT o.order_id)</code>로 세야 정확(그냥 <code>COUNT(*)</code>면 상품 라인 수가 됨).
+- 결과: 이영희(2건, 1,663,000) → 김철수(2건, 1,416,000).</p>
+<p><strong>⚠️ 함정</strong>: 조인 후 <code>COUNT(*)</code>/<code>SUM</code>이 중복 계산되는지 항상 의심. 건수는 DISTINCT, 금액은 라인별 <code>수량×단가</code> 합.</p>
+<hr />
+<h2 id="2-lag">문제 2. 직전 주문과의 간격 (LAG)</h2>
+<blockquote>
+<p>각 회원의 주문을 <strong>날짜순</strong>으로 나열하고, <strong>직전 주문일로부터 며칠 만의 주문인지</strong>(gap_days)를 구하세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">SELECT member_id, order_id, ordered_at,
+       ordered_at - LAG(ordered_at)
+         OVER (PARTITION BY member_id ORDER BY ordered_at) AS gap_days
+FROM ORDERS
+ORDER BY member_id, ordered_at;
+</code></pre>
+<p><strong>해설</strong>
+- <code>LAG(col) OVER(...)</code>는 <strong>같은 파티션에서 바로 앞 행의 값</strong>을 가져옴(첫 행은 NULL).
+- Oracle은 <strong>날짜 - 날짜 = 일수(숫자)</strong>라 <code>ordered_at - LAG(...)</code>이 바로 gap.
+- 결과 예: 김철수 101→102 = 15일, 이영희 103→108 = 51일, 박민수 104→105 = 3일.</p>
+<p><strong>⚠️ 함정</strong>: <code>LEAD</code>는 반대(다음 행). 정렬 기준을 안 주면 결과가 비결정적. MySQL엔 <code>LAG</code>가 8.0부터라 버전 의존이지만 <strong>Oracle은 기본 지원</strong>.</p>
+<hr />
+<h2 id="3-sum-over-order-by">문제 3. 매출 누적합 (SUM OVER ORDER BY)</h2>
+<blockquote>
+<p><strong>완료 주문</strong>을 날짜순으로 정렬하면서 <strong>누적 매출</strong>을 함께 보여주세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">SELECT order_id, ordered_at,
+       SUM(amt) OVER (ORDER BY ordered_at, order_id) AS running_total
+FROM (
+    SELECT o.order_id, o.ordered_at,
+           SUM(oi.quantity * p.price) AS amt
+    FROM ORDERS o
+    JOIN ORDER_ITEM oi ON o.order_id   = oi.order_id
+    JOIN PRODUCT p     ON oi.product_id = p.product_id
+    WHERE o.status = '완료'
+    GROUP BY o.order_id, o.ordered_at
+)
+ORDER BY ordered_at, order_id;
+</code></pre>
+<p><strong>해설</strong>
+- 먼저 인라인 뷰에서 <strong>주문별 매출</strong>을 만든 뒤, 바깥에서 <code>SUM() OVER(ORDER BY ...)</code>로 누적.
+- <code>OVER</code>에 <code>ORDER BY</code>가 있으면 기본 윈도우가 "처음부터 현재 행까지" → 누적합.
+- 결과 마지막 행 = 전체 합 3,257,000.</p>
+<p><strong>⚠️ 함정</strong>: <code>SUM() OVER(ORDER BY ...)</code>(누적)와 <code>SUM() OVER(PARTITION BY ...)</code>(그룹 전체 동일값)를 혼동하지 말 것.</p>
+<hr />
+<h2 id="4-2-rank-2">문제 4. 부서별 급여 상위 2명 (RANK ≤ 2)</h2>
+<blockquote>
+<p>각 부서에서 <strong>급여 상위 2명</strong>의 <code>사번·부서·순위</code>를 조회하세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">SELECT emp_id, dept_id, rnk
+FROM (
+    SELECT emp_id, dept_id,
+           RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rnk
+    FROM EMPLOYEE
+    WHERE dept_id IS NOT NULL
+)
+WHERE rnk &lt;= 2
+ORDER BY dept_id, rnk;
+</code></pre>
+<p><strong>해설</strong>
+- 1편의 "그룹별 1위(rn=1)"를 <strong>상위 N(rnk≤2)</strong>으로 확장한 형태.
+- 결과: 개발=조개발/김개발, 영업=윤영업/박세일, 인사=최인사(1명뿐).</p>
+<p><strong>⚠️ 함정</strong>: 동점 처리 정책에 따라 <code>RANK</code>(1,1,3) vs <code>DENSE_RANK</code>(1,1,2) vs <code>ROW_NUMBER</code>(1,2,3) 선택. "상위 2명 정확히"면 <code>ROW_NUMBER</code> + tie-breaker.</p>
+<hr />
+<h2 id="5-to_char-lag">문제 5. 월별 매출 &amp; 전월 대비 증감 (TO_CHAR + LAG)</h2>
+<blockquote>
+<p><strong>완료 주문</strong>을 <strong>월별</strong>로 집계하고, <strong>전월 대비 증감액</strong>을 구하세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">SELECT ym, sales,
+       sales - LAG(sales) OVER (ORDER BY ym) AS diff
+FROM (
+    SELECT TO_CHAR(o.ordered_at, 'YYYY-MM')     AS ym,
+           SUM(oi.quantity * p.price)            AS sales
+    FROM ORDERS o
+    JOIN ORDER_ITEM oi ON o.order_id   = oi.order_id
+    JOIN PRODUCT p     ON oi.product_id = p.product_id
+    WHERE o.status = '완료'
+    GROUP BY TO_CHAR(o.ordered_at, 'YYYY-MM')   -- 별칭 말고 식 반복!
+)
+ORDER BY ym;
+</code></pre>
+<p><strong>해설</strong>
+- <code>TO_CHAR(d,'YYYY-MM')</code>로 월 버킷 생성 → 집계 → <code>LAG</code>로 전월 값과 비교.
+- 결과: 2024-05 = 113,000 / 06 = 1,594,000(+1,481,000) / 07 = 1,550,000(−44,000).</p>
+<p><strong>⚠️ 함정</strong>: Oracle은 <code>GROUP BY</code> 별칭 불가 → <code>TO_CHAR(...)</code> 식을 그대로 반복. 월 정렬은 <code>'YYYY-MM'</code> 문자열이라 사전순=시간순이 성립(자리수 고정 덕분).</p>
+<hr />
+<h3 id="_1">✅ 이 장 핵심</h3>
+<ul>
+<li>조인 후 집계는 <strong>중복(DISTINCT/라인합)</strong> 주의</li>
+<li><code>LAG/LEAD</code>(이웃 행), <code>SUM() OVER(ORDER BY)</code>(누적)</li>
+<li>그룹별 상위 N = 분석함수 서브쿼리 + <code>rnk ≤ N</code></li>
+<li>월버킷은 <code>TO_CHAR(d,'YYYY-MM')</code>, GROUP BY엔 식 반복</li>
+</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch2" class="chapter"><div class="chtag">CH 03</div><h1 id="2-sql-2-oracle">2편 · SQL 심화 (2) 계층·셀프조인·집합·페이징 (Oracle)</h1>
+<blockquote>
+<p><strong>오라클 고유 기능</strong>(CONNECT BY, MINUS, ROWNUM 페이징)이 핵심. 다른 DB엔 없거나 문법이 달라 오라클 면접에서 자주 물음.</p>
+</blockquote>
+<hr />
+<h2 id="6-connect-by">문제 6. 조직도 계층 조회 (CONNECT BY) ⭐오라클 시그니처</h2>
+<blockquote>
+<p>사장(<code>manager_id IS NULL</code>)을 최상위로, <strong>조직 계층 레벨(LEVEL)</strong>과 함께 전 직원을 조회하세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">SELECT LEVEL AS lvl, emp_id, name, manager_id
+FROM EMPLOYEE
+START WITH manager_id IS NULL          -- 루트: 사장
+CONNECT BY PRIOR emp_id = manager_id   -- 부모.emp_id = 자식.manager_id
+ORDER SIBLINGS BY emp_id;
+</code></pre>
+<p><strong>해설</strong>
+- <code>START WITH</code>가 루트, <code>CONNECT BY PRIOR 부모키 = 자식키</code>로 아래로 전개. <code>LEVEL</code>은 의사컬럼(깊이).
+- 결과: L1=한사장 / L2=조개발·윤영업·최인사 / L3=김개발·이코딩·박세일.
+- 표준 SQL로는 <strong>재귀 CTE</strong>로 동일 구현:</p>
+<pre><code class="language-sql">WITH org (emp_id, name, lvl) AS (
+    SELECT emp_id, name, 1 FROM EMPLOYEE WHERE manager_id IS NULL
+    UNION ALL
+    SELECT e.emp_id, e.name, o.lvl + 1
+    FROM EMPLOYEE e JOIN org o ON e.manager_id = o.emp_id
+)
+SELECT lvl, emp_id, name FROM org ORDER BY lvl, emp_id;
+</code></pre>
+<p><strong>⚠️ 함정</strong>: <code>PRIOR</code> 위치가 방향을 정함(<code>PRIOR emp_id = manager_id</code> = 위→아래). 반대로 쓰면 거꾸로 올라감. 사이클 있으면 <code>CONNECT BY NOCYCLE</code>.</p>
+<hr />
+<h2 id="7">문제 7. 같은 도시 회원 쌍 (셀프 조인)</h2>
+<blockquote>
+<p><strong>같은 도시에 사는 회원 쌍</strong>을 (회원ID 작은 쪽, 큰 쪽) 형태로 조회하세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">SELECT a.member_id AS m1, b.member_id AS m2, a.city
+FROM MEMBER a
+JOIN MEMBER b ON a.city = b.city
+             AND a.member_id &lt; b.member_id     -- 중복/자기자신 제거
+ORDER BY a.member_id, b.member_id;
+</code></pre>
+<p><strong>해설</strong>
+- 같은 테이블을 두 번(<code>a</code>,<code>b</code>) 조인 = 셀프 조인. <code>a.id &lt; b.id</code> 조건이 <code>(1,3)</code>과 <code>(3,1)</code> 중복, <code>(1,1)</code> 자기쌍을 한 번에 제거.
+- 결과: 서울 (1,3)(1,5)(3,5), 부산 (2,6) — 총 4쌍.</p>
+<p><strong>⚠️ 함정</strong>: 조건을 <code>&lt;&gt;</code>(부등호)로 하면 <code>(1,3)</code>과 <code>(3,1)</code>이 둘 다 나와 2배가 됨. 반드시 <code>&lt;</code>.</p>
+<hr />
+<h2 id="8-not-exists">문제 8. 특정 상품 안 산 회원 (NOT EXISTS)</h2>
+<blockquote>
+<p><strong>노트북(product_id=1)을 한 번도 주문하지 않은</strong> 회원의 ID를 조회하세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">SELECT member_id
+FROM MEMBER m
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM ORDERS o
+    JOIN ORDER_ITEM oi ON o.order_id = oi.order_id
+    WHERE o.member_id = m.member_id
+      AND oi.product_id = 1
+)
+ORDER BY member_id;
+</code></pre>
+<p><strong>해설</strong>
+- <code>NOT EXISTS</code>는 상관 서브쿼리가 <strong>한 건도 없을 때</strong> 참. 결과: 박민수·최지은·정하늘·강보라(3,4,5,6).
+- 노트북 산 사람은 김철수(101)·이영희(108)뿐이므로 나머지가 정답.</p>
+<p><strong>⚠️ 함정</strong>: <code>NOT IN (서브쿼리)</code>은 서브쿼리에 NULL이 하나라도 있으면 <strong>전체가 공집합</strong>이 되는 함정. "~아닌"은 <code>NOT EXISTS</code>가 안전.</p>
+<hr />
+<h2 id="9-minus">문제 9. 완료했지만 취소 이력 없는 회원 (MINUS) ⭐오라클</h2>
+<blockquote>
+<p><strong>완료 주문을 한 회원</strong>에서 <strong>취소 주문 이력이 있는 회원</strong>을 뺀 목록을 조회하세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">SELECT member_id FROM ORDERS WHERE status = '완료'
+MINUS
+SELECT member_id FROM ORDERS WHERE status = '취소'
+ORDER BY member_id;
+</code></pre>
+<p><strong>해설</strong>
+- <code>MINUS</code>는 위 집합에서 아래 집합을 뺌(차집합), 중복도 자동 제거.
+- 완료 회원 {1,2,3,5} − 취소 회원 {3} = <strong>{1,2,5}</strong>.
+- (표준/타 DB는 <code>EXCEPT</code>. Oracle은 <code>MINUS</code>.) 합집합은 <code>UNION</code>(중복제거)/<code>UNION ALL</code>(중복유지), 교집합 <code>INTERSECT</code>.</p>
+<p><strong>⚠️ 함정</strong>: <code>MINUS</code>/<code>UNION</code>은 <strong>양쪽 SELECT의 컬럼 수·타입이 일치</strong>해야 함. <code>ORDER BY</code>는 맨 마지막에 한 번만.</p>
+<hr />
+<h2 id="10-35-rownum">문제 10. 페이징 — 가격 3~5위 (ROWNUM) ⭐오라클</h2>
+<blockquote>
+<p>상품을 <strong>가격 내림차순</strong>으로 정렬했을 때 <strong>3위~5위</strong> 상품을 조회하세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">-- 방법 A (모든 버전): 이중 인라인 뷰 + ROWNUM
+SELECT product_id, name, price
+FROM (
+    SELECT p.*, ROWNUM AS rn
+    FROM (
+        SELECT product_id, name, price
+        FROM PRODUCT
+        ORDER BY price DESC
+    ) p
+    WHERE ROWNUM &lt;= 5           -- 상한(5위)까지 자른 뒤
+)
+WHERE rn &gt;= 3;                  -- 하한(3위)부터
+
+-- 방법 B (12c+): OFFSET / FETCH
+SELECT product_id, name, price
+FROM PRODUCT
+ORDER BY price DESC
+OFFSET 2 ROWS FETCH NEXT 3 ROWS ONLY;
+</code></pre>
+<p><strong>해설</strong>
+- <code>ROWNUM</code>은 정렬 전에 매겨지므로 <strong>① 정렬 인라인뷰 → ② ROWNUM으로 상한 → ③ 바깥에서 하한</strong> 3단 구조가 오라클 페이징 정석.
+- 결과: 3~5위 = 이어폰(89,000)·청바지(59,000)·자바의정석(38,000).</p>
+<p><strong>⚠️ 함정</strong>: <code>WHERE ROWNUM &gt;= 3</code>을 <strong>직접</strong> 쓰면 항상 공집합(ROWNUM은 1부터 순차 확정이라 첫 행이 3이 될 수 없음). 하한 필터는 반드시 <strong>바깥 단계</strong>에서 별칭(rn)으로.</p>
+<hr />
+<h3 id="oracle">✅ 이 장 핵심 (Oracle 고유)</h3>
+<ul>
+<li>계층: <code>START WITH ... CONNECT BY PRIOR</code>, 의사컬럼 <code>LEVEL</code></li>
+<li>셀프조인 쌍은 <code>a.id &lt; b.id</code></li>
+<li>"~아닌"은 <code>NOT EXISTS</code>(NOT IN + NULL 함정 회피)</li>
+<li>집합: <code>MINUS</code>/<code>UNION</code>/<code>INTERSECT</code> (컬럼 수·타입 일치)</li>
+<li>페이징: <code>ROWNUM</code>은 이중 인라인뷰, 또는 12c+ <code>OFFSET/FETCH</code></li>
+</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch3" class="chapter"><div class="chtag">CH 04</div><h1 id="2-sql-3-oracle">2편 · SQL 심화 (3) 고급 분석함수 &amp; 집계 (Oracle)</h1>
+<blockquote>
+<p>여기까지 익히면 SQL은 상위권. 오라클 전용 함수(RATIO_TO_REPORT·LISTAGG·ROLLUP)가 많아 면접 어필용으로도 좋음.</p>
+</blockquote>
+<hr />
+<h2 id="11-4-ntile">문제 11. 급여 4분위 (NTILE)</h2>
+<blockquote>
+<p>전 직원을 <strong>급여 내림차순으로 4개 등급(사분위)</strong>으로 나눠 <code>사번·급여·분위</code>를 조회하세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">SELECT emp_id, salary,
+       NTILE(4) OVER (ORDER BY salary DESC) AS quartile
+FROM EMPLOYEE
+ORDER BY salary DESC;
+</code></pre>
+<p><strong>해설</strong>
+- <code>NTILE(n)</code>은 정렬된 행을 <strong>n개 그룹으로 최대한 균등 분배</strong>. 7명/4 → 앞 그룹부터 2,2,2,1명.
+- 결과: 1분위(한사장·조개발), 2분위(윤영업·김개발), 3분위(이코딩·박세일), 4분위(최인사).</p>
+<p><strong>⚠️ 함정</strong>: 나눠떨어지지 않으면 <strong>앞쪽 그룹이 1명 더</strong> 많음. "상위 25%"는 <code>quartile = 1</code> 필터.</p>
+<hr />
+<h2 id="12-first_value-last_value">문제 12. 부서별 최고/최저 급여 나란히 (FIRST_VALUE / LAST_VALUE)</h2>
+<blockquote>
+<p>각 직원 행에 <strong>자기 부서의 최고 급여와 최저 급여</strong>를 함께 표시하세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">SELECT emp_id, dept_id, salary,
+       FIRST_VALUE(salary) OVER (
+           PARTITION BY dept_id ORDER BY salary DESC
+           ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS dept_max,
+       LAST_VALUE(salary) OVER (
+           PARTITION BY dept_id ORDER BY salary DESC
+           ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS dept_min
+FROM EMPLOYEE
+WHERE dept_id IS NOT NULL
+ORDER BY dept_id, salary DESC;
+</code></pre>
+<p><strong>해설</strong>
+- 결과: 개발 max 8,000,000 / min 5,000,000, 영업 7,000,000 / 4,800,000, 인사 4,500,000 동일.
+- ⭐ <strong><code>LAST_VALUE</code>의 함정</strong>: 기본 윈도우 프레임은 "시작~현재행"이라 그대로 쓰면 <strong>현재 행 값</strong>이 나옴. 반드시 <strong><code>ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING</code></strong>로 프레임을 열어야 진짜 마지막 값.</p>
+<p><strong>⚠️ 함정</strong>: 프레임 미지정 <code>LAST_VALUE</code>는 십중팔구 의도와 다름 → 프레임 명시. (또는 그냥 <code>MAX/MIN OVER(PARTITION BY ...)</code> 사용)</p>
+<hr />
+<h2 id="13-ratio_to_report">문제 13. 부서 내 급여 비중 % (RATIO_TO_REPORT)</h2>
+<blockquote>
+<p>각 직원의 급여가 <strong>자기 부서 총급여에서 차지하는 비율(%)</strong>을 조회하세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">-- 방법 A: 오라클 전용 RATIO_TO_REPORT
+SELECT emp_id, dept_id,
+       ROUND(RATIO_TO_REPORT(salary) OVER (PARTITION BY dept_id) * 100, 2) AS pct
+FROM EMPLOYEE
+WHERE dept_id IS NOT NULL
+ORDER BY dept_id, pct DESC;
+
+-- 방법 B: 표준 (SUM OVER)
+SELECT emp_id, dept_id,
+       ROUND(salary * 100 / SUM(salary) OVER (PARTITION BY dept_id), 2) AS pct
+FROM EMPLOYEE
+WHERE dept_id IS NOT NULL
+ORDER BY dept_id, pct DESC;
+</code></pre>
+<p><strong>해설</strong>
+- 결과: 개발 43.24/29.73/27.03, 영업 59.32/40.68, 인사 100.
+- <code>RATIO_TO_REPORT</code>는 "그룹 합 대비 비율"을 바로 주는 오라클 함수. 표준으로는 <code>값 / SUM() OVER(PARTITION BY)</code>.</p>
+<p><strong>⚠️ 함정</strong>: 정수 나눗셈 주의(오라클 NUMBER는 소수 OK지만 <code>ROUND</code> 자릿수 지정). 반올림 합이 100%가 안 될 수 있음(반올림 오차).</p>
+<hr />
+<h2 id="14-rollup">문제 14. 카테고리 매출 + 총계 (ROLLUP)</h2>
+<blockquote>
+<p><strong>완료 주문</strong> 카테고리별 매출과 <strong>맨 아래 전체 합계 행</strong>을 함께 조회하세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">SELECT NVL(p.category, '전체합계')     AS category,
+       SUM(oi.quantity * p.price)       AS sales
+FROM ORDERS o
+JOIN ORDER_ITEM oi ON o.order_id   = oi.order_id
+JOIN PRODUCT p     ON oi.product_id = p.product_id
+WHERE o.status = '완료'
+GROUP BY ROLLUP(p.category);
+</code></pre>
+<p><strong>해설</strong>
+- <code>GROUP BY ROLLUP(category)</code>는 카테고리별 합 + <strong>소계/총계 행</strong>을 자동 생성(총계 행은 category가 NULL → <code>NVL</code>로 라벨).
+- 결과: 전자 3,017,000 / 도서 102,000 / 식품 100,000 / 의류 38,000 / <strong>전체합계 3,257,000</strong>.
+- 다차원이면 <code>GROUP BY ROLLUP(a, b)</code> 또는 <code>CUBE(a, b)</code>, 어떤 컬럼이 소계인지 <code>GROUPING()</code>으로 판별.</p>
+<p><strong>⚠️ 함정</strong>: 총계 행의 category는 NULL → <code>NVL</code>/<code>GROUPING</code>으로 표시. MySQL은 <code>WITH ROLLUP</code> 문법이라 다름.</p>
+<hr />
+<h2 id="15-listagg">문제 15. 부서별 직원 명단 한 줄로 (LISTAGG)</h2>
+<blockquote>
+<p>부서별로 <strong>소속 직원 이름을 사번순으로 콤마 연결</strong>해 한 줄로 조회하세요.</p>
+</blockquote>
+<p><strong>정답 (Oracle)</strong></p>
+<pre><code class="language-sql">SELECT dept_id,
+       LISTAGG(name, ', ') WITHIN GROUP (ORDER BY emp_id) AS members
+FROM EMPLOYEE
+WHERE dept_id IS NOT NULL
+GROUP BY dept_id
+ORDER BY dept_id;
+</code></pre>
+<p><strong>해설</strong>
+- <code>LISTAGG(컬럼, 구분자) WITHIN GROUP (ORDER BY ...)</code> = 그룹 내 값을 한 문자열로. (MySQL의 <code>GROUP_CONCAT</code>)
+- 결과: 개발 "조개발, 김개발, 이코딩" / 영업 "윤영업, 박세일" / 인사 "최인사".</p>
+<p><strong>⚠️ 함정</strong>: 연결 결과가 4000자(VARCHAR2 한계) 초과하면 에러 → <code>ON OVERFLOW TRUNCATE</code> 옵션(12c+). <code>WITHIN GROUP</code> 정렬 빠뜨리면 순서 비결정적.</p>
+<hr />
+<h3 id="oracle">✅ 이 장 핵심 (Oracle 고급)</h3>
+<ul>
+<li><code>NTILE(n)</code> 균등 분위(앞 그룹이 +1)</li>
+<li><code>LAST_VALUE</code>는 <strong>프레임 열기</strong> 필수</li>
+<li>비율 <code>RATIO_TO_REPORT</code> 또는 <code>값/SUM() OVER</code></li>
+<li>소계/총계 <code>ROLLUP</code>(+<code>NVL</code>/<code>GROUPING</code>)</li>
+<li>문자열 집계 <code>LISTAGG ... WITHIN GROUP</code></li>
+</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch4" class="chapter"><div class="chtag">CH 05</div><h1 id="2-1">2편 · 알고리즘 심화 (1) 문자열·시뮬레이션·스택</h1>
+<blockquote>
+<p>프로그래머스 Lv.2 단골. 알고리즘보다 <strong>정확한 구현</strong>이 승부. 아래 코드는 전부 컴파일·실행 검증됨.</p>
+</blockquote>
+<hr />
+<h2 id="1">문제 1. 문자열 압축</h2>
+<blockquote>
+<p>문자열 <code>s</code>를 1글자 이상 <strong>같은 길이 단위로 잘라</strong> 연속 반복을 <code>횟수+문자열</code>로 압축할 때,
+만들 수 있는 <strong>가장 짧은 압축 문자열의 길이</strong>를 반환하세요.
+예: <code>"aabbaccc"</code> → <code>"2a2ba3c"</code> = 7</p>
+</blockquote>
+<p><strong>정답 (검증됨)</strong></p>
+<pre><code class="language-java">class Solution {
+    public int solution(String s) {
+        int n = s.length();
+        if (n == 1) return 1;
+        int best = n;                                  // 안 자르는 경우
+        for (int unit = 1; unit &lt;= n / 2; unit++) {    // 자르는 단위
+            int comp = 0, i = 0;
+            while (i &lt; n) {
+                String cur = s.substring(i, Math.min(i + unit, n));
+                int cnt = 1, j = i + unit;
+                while (j + unit &lt;= n &amp;&amp; s.substring(j, j + unit).equals(cur)) {
+                    cnt++; j += unit;                  // 같은 조각 연속 카운트
+                }
+                comp += (cnt == 1 ? 0 : String.valueOf(cnt).length()) + cur.length();
+                i = j;
+            }
+            best = Math.min(best, comp);
+        }
+        return best;
+    }
+}
+</code></pre>
+<p><strong>해설</strong>
+- 단위 길이를 <code>1 ~ n/2</code>까지 <strong>완전탐색</strong>(그 이상은 반복이 안 생김). 각 단위로 앞에서부터 조각을 만들어 연속 동일 조각을 셈.
+- 반복 1회면 숫자 안 붙임(<code>cnt==1</code> → 길이 0), 2회 이상이면 <code>숫자자릿수 + 조각길이</code>.
+- 검증: aabbaccc=7, ababcdcdababcdcd=9, abcabcdede=8, abcabcabcabcdededededede=14, xababcdcdababcdcd=17.</p>
+<p><strong>⚠️ 함정</strong>: 숫자 자릿수(<code>10</code>은 2자리)를 <code>String.valueOf(cnt).length()</code>로 정확히. 끝부분 잘린 조각(unit보다 짧음) 길이 처리. 단위 상한 <code>n/2</code>.</p>
+<p><strong>🔗 프로그래머스</strong>: Lv.2 "문자열 압축".</p>
+<hr />
+<h2 id="2-90">문제 2. 행렬 90도 회전</h2>
+<blockquote>
+<p><code>N × M</code> 정수 행렬을 <strong>시계방향 90도</strong> 회전한 <code>M × N</code> 행렬을 반환하세요.
+예: <code>[[1,2,3],[4,5,6]]</code> → <code>[[4,1],[5,2],[6,3]]</code></p>
+</blockquote>
+<p><strong>정답 (검증됨)</strong></p>
+<pre><code class="language-java">class Solution {
+    public int[][] solution(int[][] a) {
+        int R = a.length, C = a[0].length;
+        int[][] r = new int[C][R];
+        for (int i = 0; i &lt; R; i++)
+            for (int j = 0; j &lt; C; j++)
+                r[j][R - 1 - i] = a[i][j];   // 핵심 인덱스 매핑
+        return r;
+    }
+}
+</code></pre>
+<p><strong>해설</strong>
+- 시계 90도 회전의 좌표 규칙: <strong><code>(i, j) → (j, R-1-i)</code></strong>. 결과 배열 크기는 <code>[C][R]</code>로 뒤바뀜.
+- 반시계면 <code>(i,j) → (C-1-j, i)</code>. 180도면 두 번 적용.</p>
+<p><strong>⚠️ 함정</strong>: 회전 후 <strong>행/열 개수가 바뀐다</strong>(정사각형이 아니면 특히). 새 배열을 <code>[C][R]</code>로 잡아야 함. 인덱스 매핑 공식을 손으로 2×3 예제에 대입해 확인.</p>
+<p><strong>🔗 프로그래머스/백준</strong>: 배열 회전, 삼성 SW 역량테스트 시뮬 단골.</p>
+<hr />
+<h2 id="3">문제 3. 올바른 괄호</h2>
+<blockquote>
+<p>여는 <code>'('</code> 과 닫는 <code>')'</code> 만으로 이루어진 문자열 <code>s</code>가 <strong>올바른 괄호쌍</strong>이면 <code>true</code>.</p>
+</blockquote>
+<p><strong>정답 (검증됨)</strong></p>
+<pre><code class="language-java">class Solution {
+    public boolean solution(String s) {
+        int bal = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') bal++;
+            else { bal--; if (bal &lt; 0) return false; }  // 닫는데 열린 게 없음
+        }
+        return bal == 0;                                  // 남은 여는 괄호 없어야
+    }
+}
+</code></pre>
+<p><strong>해설</strong>
+- 여는 +1, 닫는 −1. <strong>중간에 음수가 되면 즉시 실패</strong>(닫는 괄호가 먼저 옴). 끝에 0이어야 완전 매칭.
+- 괄호 종류가 여러 개(<code>()[]{}</code>)면 <strong>스택</strong>에 여는 괄호를 넣고 닫을 때 짝을 맞춰 pop.</p>
+<p><strong>⚠️ 함정</strong>: 단순 개수 비교(여는 수 == 닫는 수)만으론 <code>)(</code> 를 통과시켜 버림. <strong>진행 중 음수 체크</strong>가 필수.</p>
+<p><strong>🔗 프로그래머스</strong>: Lv.2 "올바른 괄호", 스택/큐 카테고리.</p>
+<hr />
+<h3 id="_1">✅ 이 장 핵심</h3>
+<ul>
+<li>문자열 압축: 단위 <code>1~n/2</code> 완전탐색 + 숫자 자릿수 주의</li>
+<li>회전: <code>(i,j)→(j,R-1-i)</code>, 결과 크기 <code>[C][R]</code></li>
+<li>괄호: 진행 중 음수 즉시 실패 + 끝 0 (종류 여러 개면 스택)</li>
+</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch5" class="chapter"><div class="chtag">CH 06</div><h1 id="2-2-dfs">2편 · 알고리즘 심화 (2) 투포인터·DFS·그리디·파라메트릭</h1>
+<blockquote>
+<p>"이걸 알면 유형 즉답" 4대장. 전부 컴파일·실행 검증됨.</p>
+</blockquote>
+<hr />
+<h2 id="4-target">문제 4. 합이 target인 연속 부분수열 개수 (슬라이딩 윈도우)</h2>
+<blockquote>
+<p>양의 정수 배열 <code>a</code>에서 <strong>연속한 원소들의 합이 <code>target</code></strong>인 구간의 개수를 반환하세요.
+예: <code>[1,2,3,2,5]</code>, target=5 → <strong>3</strong> (<code>[2,3]</code>, <code>[3,2]</code>, <code>[5]</code>)</p>
+</blockquote>
+<p><strong>정답 (검증됨)</strong></p>
+<pre><code class="language-java">class Solution {
+    public int solution(int[] a, int target) {
+        int cnt = 0, sum = 0, left = 0;
+        for (int right = 0; right &lt; a.length; right++) {
+            sum += a[right];                              // 오른쪽 확장
+            while (sum &gt; target &amp;&amp; left &lt;= right) sum -= a[left++];  // 초과하면 왼쪽 축소
+            if (sum == target) cnt++;
+        }
+        return cnt;
+    }
+}
+</code></pre>
+<p><strong>해설</strong>
+- <strong>양수 배열</strong>이면 창을 넓히면 합↑, 좁히면 합↓ → 투포인터(슬라이딩 윈도우) O(n).
+- 오른쪽을 밀며 더하고, 초과하면 왼쪽을 당겨 줄이고, 딱 맞으면 카운트.</p>
+<p><strong>⚠️ 함정</strong>: <strong>음수가 섞이면 단조성이 깨져</strong> 슬라이딩 윈도우 불가 → 누적합 + 해시(prefix sum) 필요. "양의 정수" 조건 확인.</p>
+<p><strong>🔗 프로그래머스</strong>: "연속된 부분 수열의 합" 계열.</p>
+<hr />
+<h2 id="5-dfs">문제 5. 타겟 넘버 (DFS 완전탐색)</h2>
+<blockquote>
+<p>각 수 앞에 <code>+</code> 또는 <code>−</code>를 붙여 더한 값이 <code>target</code>이 되는 <strong>경우의 수</strong>를 반환하세요.
+예: <code>[1,1,1,1,1]</code>, target=3 → <strong>5</strong></p>
+</blockquote>
+<p><strong>정답 (검증됨)</strong></p>
+<pre><code class="language-java">class Solution {
+    public int solution(int[] numbers, int target) {
+        return dfs(numbers, 0, 0, target);
+    }
+    private int dfs(int[] n, int idx, int sum, int target) {
+        if (idx == n.length) return sum == target ? 1 : 0;   // 다 썼을 때 판정
+        return dfs(n, idx + 1, sum + n[idx], target)          // +
+             + dfs(n, idx + 1, sum - n[idx], target);         // -
+    }
+}
+</code></pre>
+<p><strong>해설</strong>
+- 각 원소에서 +/− 두 갈래로 분기 → 이진 트리 완전탐색. 잎(idx==끝)에서 합이 target이면 1.
+- 원소 수 N이면 2^N 경우. <strong>N ≤ 20 정도</strong>면 완전탐색 OK(그 이상은 DP/메모이제이션).</p>
+<p><strong>⚠️ 함정</strong>: 종료 조건은 "인덱스 끝"에서만 판정(중간에 sum==target이라고 세면 안 됨). BFS로도 가능하나 DFS가 간결.</p>
+<p><strong>🔗 프로그래머스</strong>: Lv.2 "타겟 넘버"(DFS/BFS 대표문제).</p>
+<hr />
+<h2 id="6">문제 6. 구명보트 (그리디 + 투포인터)</h2>
+<blockquote>
+<p>각 사람 무게 <code>people</code>, 보트 한도 <code>limit</code>. 보트당 <strong>최대 2명 &amp; 합이 limit 이하</strong>.
+모두 옮기는 <strong>최소 보트 수</strong>를 반환하세요. 예: <code>[70,50,80,50]</code>, limit=100 → <strong>3</strong></p>
+</blockquote>
+<p><strong>정답 (검증됨)</strong></p>
+<pre><code class="language-java">import java.util.*;
+class Solution {
+    public int solution(int[] people, int limit) {
+        Arrays.sort(people);
+        int i = 0, j = people.length - 1, cnt = 0;
+        while (i &lt;= j) {
+            if (people[i] + people[j] &lt;= limit) i++;   // 제일 가벼운 사람도 같이 태움
+            j--;                                        // 제일 무거운 사람은 무조건 탑승
+            cnt++;
+        }
+        return cnt;
+    }
+}
+</code></pre>
+<p><strong>해설</strong>
+- 정렬 후 <strong>가장 무거운 사람(j)</strong> 기준으로, 가장 가벼운 사람(i)과 같이 탈 수 있으면 둘, 아니면 혼자.
+- 무거운 쪽부터 처리하는 게 그리디의 핵심(무거운 사람은 어차피 배를 차지하므로).</p>
+<p><strong>⚠️ 함정</strong>: 3명 이상 못 태움(한도만 맞으면 되는 게 아니라 인원 제한 2). 정렬 필수. <code>i &lt;= j</code> 경계(가운데 1명 남는 경우).</p>
+<p><strong>🔗 프로그래머스</strong>: Lv.2 "구명보트".</p>
+<hr />
+<h2 id="7">문제 7. 랜선 자르기 (파라메트릭 서치)</h2>
+<blockquote>
+<p>길이 배열 <code>lines</code>를 잘라 <strong>길이가 같은 랜선을 최소 <code>need</code>개</strong> 만들 때,
+만들 수 있는 <strong>최대 랜선 길이</strong>를 반환하세요. 예: <code>[802,743,457,539]</code>, need=11 → <strong>200</strong></p>
+</blockquote>
+<p><strong>정답 (검증됨)</strong></p>
+<pre><code class="language-java">class Solution {
+    public long solution(int[] lines, int need) {
+        long lo = 1, hi = 0, ans = 0;
+        for (int x : lines) hi = Math.max(hi, x);       // 답의 상한 = 최장 랜선
+        while (lo &lt;= hi) {
+            long mid = lo + (hi - lo) / 2;              // 길이를 이분
+            long cnt = 0;
+            for (int x : lines) cnt += x / mid;         // mid로 자르면 몇 개?
+            if (cnt &gt;= need) { ans = mid; lo = mid + 1; }   // 충분 → 더 길게 시도
+            else hi = mid - 1;                              // 부족 → 짧게
+        }
+        return ans;
+    }
+}
+</code></pre>
+<p><strong>해설</strong>
+- "<strong>~을 최대로 하는 값</strong>"인데 <code>길이↑ → 개수↓</code>가 단조 → <strong>답(길이)을 이분탐색</strong>(파라메트릭 서치).
+- <code>mid</code>로 잘라 총 개수가 need 이상이면 더 길게, 부족하면 짧게.
+- 개수 합은 크므로 <code>long</code>. 검증: 200(합 4+3+2+2=11), 201이면 10개라 부족.</p>
+<p><strong>⚠️ 함정</strong>: 합/길이 오버플로 → <code>long</code>. <code>mid=(lo+hi)/2</code> 대신 <code>lo+(hi-lo)/2</code>. lo/hi 갱신 방향과 "만족 시 답 저장" 패턴.</p>
+<p><strong>🔗 프로그래머스/백준</strong>: "입국심사", 백준 1654 "랜선 자르기", 2805 "나무 자르기".</p>
+<hr />
+<h3 id="_1">✅ 이 장 핵심</h3>
+<ul>
+<li>슬라이딩 윈도우 = <strong>양수 + 연속 구간</strong> (음수면 prefix+해시)</li>
+<li>DFS 완전탐색 = 분기 재귀, 잎에서 판정, N≤20</li>
+<li>그리디 구명보트 = 정렬 후 <strong>무거운 사람 기준 투포인터</strong></li>
+<li>파라메트릭 = "최대/최소를 만드는 값"을 이분, <code>long</code>·경계 주의</li>
+</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch6" class="chapter"><div class="chtag">CH 07</div><h1 id="2-3-dp-4">2편 · 알고리즘 심화 (3) DP 핵심 4종</h1>
+<blockquote>
+<p>DP는 "상태 정의 → 점화식"이 전부. 대표 4문제로 감을 잡으세요. 전부 컴파일·실행 검증됨.</p>
+</blockquote>
+<hr />
+<h2 id="8-levenshtein">문제 8. 편집 거리 (Levenshtein)</h2>
+<blockquote>
+<p>문자열 <code>a</code>를 <code>b</code>로 바꾸는 <strong>최소 편집 횟수</strong>(삽입/삭제/교체 각 1회)를 반환하세요.
+예: <code>"sunday" → "saturday"</code> = 3</p>
+</blockquote>
+<p><strong>정답 (검증됨)</strong></p>
+<pre><code class="language-java">class Solution {
+    public int solution(String a, String b) {
+        int n = a.length(), m = b.length();
+        int[][] dp = new int[n + 1][m + 1];
+        for (int i = 0; i &lt;= n; i++) dp[i][0] = i;   // b가 빈 문자열 → i번 삭제
+        for (int j = 0; j &lt;= m; j++) dp[0][j] = j;   // a가 빈 문자열 → j번 삽입
+        for (int i = 1; i &lt;= n; i++)
+            for (int j = 1; j &lt;= m; j++) {
+                if (a.charAt(i - 1) == b.charAt(j - 1))
+                    dp[i][j] = dp[i - 1][j - 1];                       // 같으면 그대로
+                else
+                    dp[i][j] = 1 + Math.min(dp[i - 1][j - 1],          // 교체
+                                   Math.min(dp[i - 1][j],              // 삭제
+                                            dp[i][j - 1]));            // 삽입
+            }
+        return dp[n][m];
+    }
+}
+</code></pre>
+<p><strong>해설</strong>
+- <code>dp[i][j]</code> = a의 앞 i글자를 b의 앞 j글자로 바꾸는 최소 비용. <strong>문장으로 상태를 정의할 수 있어야 함</strong>.
+- 마지막 글자가 같으면 대각선 그대로, 다르면 세 방향(교체/삭제/삽입) 최소 +1.
+- 검증: sunday→saturday=3, horse→ros=3, intention→execution=5.</p>
+<p><strong>⚠️ 함정</strong>: 초기값(빈 문자열 대비 i, j)을 빠뜨리면 전부 틀림. 인덱스 <code>i-1/j-1</code>(문자열은 0-index, dp는 1-index).</p>
+<hr />
+<h2 id="9-lis">문제 9. 최장 증가 부분 수열 (LIS)</h2>
+<blockquote>
+<p>배열에서 <strong>엄격히 증가하는 가장 긴 부분 수열의 길이</strong>를 반환하세요.
+예: <code>[10,9,2,5,3,7,101,18]</code> → 4 (<code>2,3,7,18</code> 또는 <code>2,3,7,101</code>)</p>
+</blockquote>
+<p><strong>정답 (검증됨, O(n log n))</strong></p>
+<pre><code class="language-java">import java.util.*;
+class Solution {
+    public int solution(int[] a) {
+        List&lt;Integer&gt; tail = new ArrayList&lt;&gt;();       // tail[k]=길이 k+1 수열의 최소 끝값
+        for (int x : a) {
+            int lo = 0, hi = tail.size();
+            while (lo &lt; hi) {                          // x가 들어갈 lower_bound 찾기
+                int mid = (lo + hi) / 2;
+                if (tail.get(mid) &lt; x) lo = mid + 1; else hi = mid;
+            }
+            if (lo == tail.size()) tail.add(x);        // 최댓값 갱신 → 길이 +1
+            else tail.set(lo, x);                      // 아니면 그 자리 교체(더 작은 끝값)
+        }
+        return tail.size();
+    }
+}
+</code></pre>
+<p><strong>해설</strong>
+- <code>tail</code> 리스트에 "길이별 최소 끝값"을 유지하며 이분탐색으로 위치 결정 → O(n log n).
+- 길이만 필요할 때의 정석. (O(n²) DP <code>dp[i]=max(dp[j])+1</code>도 있지만 느림)
+- 검증: [10,9,2,5,3,7,101,18]=4, [0,1,0,3,2,3]=4, [7,7,7]=1(엄격 증가라 1).</p>
+<p><strong>⚠️ 함정</strong>: <code>tail</code>은 실제 LIS가 아니라 <strong>길이 계산용</strong>(값 자체는 정답 수열이 아님). "이상"이면 <code>&lt;=</code>, "초과(엄격)"면 <code>&lt;</code>로 이분 조건 조정.</p>
+<hr />
+<h2 id="10-2n">문제 10. 2×N 타일링</h2>
+<blockquote>
+<p><code>2 × n</code> 바닥을 <code>1×2</code>, <code>2×1</code> 타일로 채우는 <strong>경우의 수</strong>를 반환하세요.
+예: n=4 → 5</p>
+</blockquote>
+<p><strong>정답 (검증됨)</strong></p>
+<pre><code class="language-java">class Solution {
+    public long solution(int n) {
+        if (n &lt;= 2) return n;            // f(1)=1, f(2)=2
+        long a = 1, b = 2;               // f(1), f(2)
+        for (int i = 3; i &lt;= n; i++) {
+            long c = a + b;              // f(i)=f(i-1)+f(i-2)
+            a = b; b = c;
+        }
+        return b;
+    }
+}
+</code></pre>
+<p><strong>해설</strong>
+- 마지막 칸을 세로 타일 1개(→ f(n-1)) 또는 가로 타일 2개(→ f(n-2))로 채움 → <strong>피보나치 점화식</strong>.
+- 검증: n=1→1, n=4→5, n=5→8.
+- 실제 시험은 보통 <code>% 1_000_000_007</code> 요구 → 매 스텝 모듈러.</p>
+<p><strong>⚠️ 함정</strong>: 초기값 <code>f(1)=1, f(2)=2</code>. 값이 커지므로 <code>long</code> + (요구 시) 모듈러 연산. 배열 없이 변수 2개로 O(1) 공간.</p>
+<hr />
+<h2 id="11">문제 11. 동전 교환 최소 개수</h2>
+<blockquote>
+<p>동전 종류 <code>coins</code>로 금액 <code>amount</code>를 만드는 <strong>최소 동전 개수</strong>(불가능하면 −1)를 반환하세요.
+예: <code>[1,5,12]</code>, 15 → 3 (5+5+5)</p>
+</blockquote>
+<p><strong>정답 (검증됨)</strong></p>
+<pre><code class="language-java">import java.util.*;
+class Solution {
+    public int solution(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount + 1);          // 불가능 표식(충분히 큰 값)
+        dp[0] = 0;
+        for (int a = 1; a &lt;= amount; a++)
+            for (int c : coins)
+                if (c &lt;= a) dp[a] = Math.min(dp[a], dp[a - c] + 1);
+        return dp[amount] &gt; amount ? -1 : dp[amount];
+    }
+}
+</code></pre>
+<p><strong>해설</strong>
+- <code>dp[a]</code> = 금액 a를 만드는 최소 동전 수. 각 동전 c에 대해 <code>dp[a-c]+1</code>로 갱신 → <strong>무한 개수 배낭류 DP</strong>.
+- 검증: [1,5,12] 15→3, [1,2,5] 11→3, [2] 3→−1.
+- 그리디(큰 동전부터)는 [1,5,12]·15에서 12+1+1+1=4로 <strong>틀림</strong> → 반드시 DP.</p>
+<p><strong>⚠️ 함정</strong>: "최소 개수"는 그리디가 일반적으로 실패(위 반례). 불가능 판정을 위한 초기 큰 값 + 마지막 체크. dp 크기 <code>amount+1</code>.</p>
+<hr />
+<h3 id="_1">✅ 이 장 핵심</h3>
+<ul>
+<li>편집거리: <code>dp[i][j]</code> 앞 i·j글자, 같으면 대각선 / 다르면 3방향 +1</li>
+<li>LIS: 길이별 최소 끝값 + 이분탐색 O(n log n)</li>
+<li>타일링: 피보나치, <code>long</code>(+모듈러)</li>
+<li>동전 최소: 무한 배낭 DP (그리디 금지)</li>
+</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch7" class="chapter"><div class="chtag">CH 08</div><h1 id="2-sql-1-2-120">📝 실전 모의고사 #2 (SQL 1 + 알고리즘 2 · 120분)</h1>
+<blockquote>
+<p>2편 심화 세트. 1편보다 조금 더 어렵습니다. 타이머 120분. 답지는 하단.
+<strong>SQL은 Oracle</strong>. 스키마 <a href="javascript:void(0)" class="deadlink">schema.sql</a>.</p>
+</blockquote>
+<h3 id="_1">운영 규칙</h3>
+<ul>
+<li>SQL 30분 컷 → 쉬운 알고리즘 → 어려운 알고리즘.</li>
+<li>예시 케이스만 있다고 가정 → <strong>경계값 직접 설계</strong>(점수 비공개!).</li>
+</ul>
+<hr />
+<h2 id="q1-sql-top-3">Q1. (SQL) 회원별 매출 순위 TOP 3</h2>
+<blockquote>
+<p><strong>완료 주문 기준</strong> 회원별 총 매출(수량×단가)을 구하고, <strong>매출 순위(RANK)</strong>를 매겨
+<strong>상위 3명</strong>의 <code>회원ID·총매출·순위</code>를 순위 오름차순으로 조회하세요.</p>
+</blockquote>
+<h2 id="q2">Q2. (알고리즘) 문자열 압축</h2>
+<blockquote>
+<p>문자열 <code>s</code>를 1글자 이상 같은 길이 단위로 잘라 연속 반복을 <code>횟수+문자열</code>로 압축할 때
+만들 수 있는 <strong>가장 짧은 결과의 길이</strong>를 반환하세요. (<code>"aabbaccc"</code> → 7)</p>
+</blockquote>
+<h2 id="q3">Q3. (알고리즘) 랜선 자르기</h2>
+<blockquote>
+<p>길이 배열 <code>lines</code>를 잘라 <strong>길이가 같은 랜선을 최소 <code>need</code>개</strong> 만들 때 <strong>최대 길이</strong>를 반환하세요.
+(<code>[802,743,457,539]</code>, need=11 → 200)</p>
+</blockquote>
+<h2 id="-">---</h2>
+<h2 id="_2">── 정답 ──</h2>
+<h3 id="a1-q1-oracle">A1. Q1 (Oracle · 검증됨)</h3>
+<pre><code class="language-sql">SELECT member_id, total, rnk
+FROM (
+    SELECT o.member_id,
+           SUM(oi.quantity * p.price)                              AS total,
+           RANK() OVER (ORDER BY SUM(oi.quantity * p.price) DESC)  AS rnk
+    FROM ORDERS o
+    JOIN ORDER_ITEM oi ON o.order_id   = oi.order_id
+    JOIN PRODUCT p     ON oi.product_id = p.product_id
+    WHERE o.status = '완료'
+    GROUP BY o.member_id
+)
+WHERE rnk &lt;= 3
+ORDER BY rnk;
+</code></pre>
+<ul>
+<li>결과: 이영희(1,663,000·1위), 김철수(1,416,000·2위), 박민수(153,000·3위).</li>
+<li>포인트: <strong>집계(SUM) 위에 분석함수(RANK)</strong> → 서브쿼리로 감싸 <code>rnk&lt;=3</code>. 상세 → <a href="#ch1">sql_심화_01</a>.</li>
+</ul>
+<h3 id="a2-q2">A2. Q2 문자열 압축 (검증됨)</h3>
+<p>→ 전체 코드·해설: <a href="#ch4">algo_심화_01 문제1</a>
+핵심: 단위 <code>1~n/2</code> 완전탐색, 연속 동일 조각 카운트, 숫자 자릿수 주의.</p>
+<h3 id="a3-q3">A3. Q3 랜선 자르기 (검증됨)</h3>
+<p>→ 전체 코드·해설: <a href="#ch5">algo_심화_02 문제7</a>
+핵심: "최대 길이"를 <strong>이분탐색</strong>, <code>mid</code>로 자른 총 개수 ≥ need면 더 길게. <code>long</code>.</p>
+<hr />
+<h2 id="_3">복기 체크</h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Q1: RANK 동점 처리 / 상위 N 경계(<code>&lt;=3</code>) / 정렬</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Q2: n=1, 반복 없는 문자열, 10회 이상(자릿수 2) 케이스</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Q3: need를 못 채우는 경우, 오버플로(<code>long</code>), mid=0 방지</li>
+</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch8" class="chapter"><div class="chtag">CH 09</div><h1 id="3-sql-1-2-120">📝 실전 모의고사 #3 (SQL 1 + 알고리즘 2 · 120분)</h1>
+<blockquote>
+<p>마지막 실전. D-2~D-1에 시간 재고 풀어보세요. 답지는 하단. <strong>SQL은 Oracle</strong>.</p>
+</blockquote>
+<h3 id="_1">운영 규칙</h3>
+<ul>
+<li>SQL 먼저 안전하게 득점 → 알고리즘. 반례는 스스로 설계.</li>
+</ul>
+<hr />
+<h2 id="q1-sql">Q1. (SQL) 부서 평균보다 많이 받는 직원</h2>
+<blockquote>
+<p>각 직원의 급여가 <strong>자기 부서 평균 급여보다 높은</strong> 직원의 <code>사번·이름·급여</code>를 사번 순으로 조회하세요.
+(부서가 없는 직원은 제외)</p>
+</blockquote>
+<h2 id="q2-90">Q2. (알고리즘) 행렬 90도 회전</h2>
+<blockquote>
+<p><code>N × M</code> 정수 행렬을 <strong>시계방향 90도</strong> 회전한 <code>M × N</code> 행렬을 반환하세요.
+(<code>[[1,2,3],[4,5,6]]</code> → <code>[[4,1],[5,2],[6,3]]</code>)</p>
+</blockquote>
+<h2 id="q3">Q3. (알고리즘) 구명보트</h2>
+<blockquote>
+<p>사람 무게 <code>people</code>, 보트 한도 <code>limit</code>(1척 최대 2명, 합 ≤ limit). 모두 옮기는 <strong>최소 보트 수</strong>.
+(<code>[70,50,80,50]</code>, limit=100 → 3)</p>
+</blockquote>
+<h2 id="-">---</h2>
+<h2 id="_2">── 정답 ──</h2>
+<h3 id="a1-q1-oracle">A1. Q1 (Oracle · 검증됨)</h3>
+<pre><code class="language-sql">SELECT e.emp_id, e.name, e.salary
+FROM EMPLOYEE e
+JOIN (
+    SELECT dept_id, AVG(salary) AS avg_sal
+    FROM EMPLOYEE
+    WHERE dept_id IS NOT NULL
+    GROUP BY dept_id
+) d ON e.dept_id = d.dept_id
+WHERE e.salary &gt; d.avg_sal
+ORDER BY e.emp_id;
+</code></pre>
+<ul>
+<li>결과: 조개발(8,000,000 &gt; 개발평균 6,166,666), 윤영업(7,000,000 &gt; 영업평균 5,900,000).</li>
+<li>포인트: <strong>부서별 평균을 인라인 뷰로 만들어 조인</strong> 후 개인 급여와 비교. (상관 서브쿼리 <code>WHERE e.salary &gt; (SELECT AVG... WHERE dept_id=e.dept_id)</code>로도 가능)</li>
+<li>상세 → <a href="#ch1">sql_심화_01</a>, 윈도우로도: <code>AVG(salary) OVER(PARTITION BY dept_id)</code>.</li>
+</ul>
+<h3 id="a2-q2">A2. Q2 행렬 회전 (검증됨)</h3>
+<p>→ 전체 코드·해설: <a href="#ch4">algo_심화_01 문제2</a>
+핵심: <code>(i,j) → (j, R-1-i)</code>, 결과 배열 크기 <code>[C][R]</code>.</p>
+<h3 id="a3-q3">A3. Q3 구명보트 (검증됨)</h3>
+<p>→ 전체 코드·해설: <a href="#ch5">algo_심화_02 문제6</a>
+핵심: 정렬 후 <strong>무거운 사람 기준</strong> 투포인터, 가벼운 사람과 같이 태울 수 있으면 둘.</p>
+<hr />
+<h2 id="_3">복기 체크</h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Q1: 평균 경계(초과 vs 이상), 부서 NULL 제외, 동일 급여 처리</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Q2: 정사각형 아닌 행렬에서 결과 크기 <code>[C][R]</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Q3: 인원 2명 제한, 가운데 1명 남는 경계(<code>i&lt;=j</code>)</li>
+</ul><a class="totop" href="#top">↑ 목차</a></section>
+</div></body></html>
