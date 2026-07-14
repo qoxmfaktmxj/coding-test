@@ -1,0 +1,120 @@
+-- ============================================================
+--  롯데이노베이트 SQL 연습용 스키마 (⭐ Oracle 기준)
+--  전자상거래(회원/상품/주문) + 인사(부서/직원) 두 도메인.
+--  모든 공략본 문제는 이 스키마를 사용합니다.
+--  * 최초 실행 시 DROP에서 ORA-00942(테이블 없음)가 나면 무시하세요.
+-- ============================================================
+
+DROP TABLE ORDER_ITEM CASCADE CONSTRAINTS;
+DROP TABLE ORDERS     CASCADE CONSTRAINTS;
+DROP TABLE PRODUCT    CASCADE CONSTRAINTS;
+DROP TABLE MEMBER     CASCADE CONSTRAINTS;
+DROP TABLE EMPLOYEE   CASCADE CONSTRAINTS;
+DROP TABLE DEPARTMENT CASCADE CONSTRAINTS;
+
+-- 회원
+CREATE TABLE MEMBER (
+    member_id   NUMBER       PRIMARY KEY,
+    name        VARCHAR2(30) NOT NULL,
+    gender      CHAR(1),                 -- 'M' / 'F'
+    age         NUMBER,
+    city        VARCHAR2(20),
+    joined_at   DATE
+);
+
+-- 상품
+CREATE TABLE PRODUCT (
+    product_id  NUMBER       PRIMARY KEY,
+    name        VARCHAR2(50) NOT NULL,
+    category    VARCHAR2(20),            -- 전자/도서/식품/의류
+    price       NUMBER
+);
+
+-- 주문 (주문 헤더)
+CREATE TABLE ORDERS (
+    order_id    NUMBER PRIMARY KEY,
+    member_id   NUMBER,
+    ordered_at  DATE,
+    status      VARCHAR2(10),            -- 완료/취소/배송중
+    CONSTRAINT fk_orders_member FOREIGN KEY (member_id) REFERENCES MEMBER(member_id)
+);
+
+-- 주문 상세 (주문-상품 N:M)
+CREATE TABLE ORDER_ITEM (
+    order_id    NUMBER,
+    product_id  NUMBER,
+    quantity    NUMBER,
+    CONSTRAINT pk_order_item PRIMARY KEY (order_id, product_id),
+    CONSTRAINT fk_oi_order   FOREIGN KEY (order_id)   REFERENCES ORDERS(order_id),
+    CONSTRAINT fk_oi_product FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id)
+);
+
+-- 부서
+CREATE TABLE DEPARTMENT (
+    dept_id   NUMBER PRIMARY KEY,
+    dept_name VARCHAR2(20)
+);
+
+-- 직원 (self-join: manager_id, NULL 포함)
+CREATE TABLE EMPLOYEE (
+    emp_id     NUMBER PRIMARY KEY,
+    name       VARCHAR2(30),
+    dept_id    NUMBER,          -- NULL 가능(사장)
+    salary     NUMBER,
+    manager_id NUMBER,          -- NULL 가능(사장)
+    hired_at   DATE,
+    CONSTRAINT fk_emp_dept FOREIGN KEY (dept_id) REFERENCES DEPARTMENT(dept_id)
+);
+
+-- ---------- 샘플 데이터 (Oracle: 날짜는 DATE '...' 리터럴) ----------
+INSERT INTO MEMBER VALUES (1,'김철수','M',25,'서울',DATE '2023-01-15');
+INSERT INTO MEMBER VALUES (2,'이영희','F',32,'부산',DATE '2022-11-03');
+INSERT INTO MEMBER VALUES (3,'박민수','M',41,'서울',DATE '2023-05-20');
+INSERT INTO MEMBER VALUES (4,'최지은','F',28,'대구',DATE '2024-02-10');
+INSERT INTO MEMBER VALUES (5,'정하늘','M',19,'서울',DATE '2024-06-01');
+INSERT INTO MEMBER VALUES (6,'강보라','F',35,'부산',DATE '2021-07-22');  -- 주문 없음 (LEFT JOIN용)
+
+INSERT INTO PRODUCT VALUES (1,'노트북','전자',1200000);
+INSERT INTO PRODUCT VALUES (2,'이어폰','전자',89000);
+INSERT INTO PRODUCT VALUES (3,'자바의정석','도서',38000);
+INSERT INTO PRODUCT VALUES (4,'알고리즘도서','도서',32000);
+INSERT INTO PRODUCT VALUES (5,'커피원두','식품',25000);
+INSERT INTO PRODUCT VALUES (6,'티셔츠','의류',19000);
+INSERT INTO PRODUCT VALUES (7,'청바지','의류',59000);
+INSERT INTO PRODUCT VALUES (8,'모니터','전자',350000);
+
+INSERT INTO ORDERS VALUES (101,1,DATE '2024-06-05','완료');
+INSERT INTO ORDERS VALUES (102,1,DATE '2024-06-20','완료');
+INSERT INTO ORDERS VALUES (103,2,DATE '2024-05-11','완료');
+INSERT INTO ORDERS VALUES (104,3,DATE '2024-06-15','취소');
+INSERT INTO ORDERS VALUES (105,3,DATE '2024-06-18','완료');
+INSERT INTO ORDERS VALUES (106,4,DATE '2024-06-25','배송중');
+INSERT INTO ORDERS VALUES (107,5,DATE '2024-06-28','완료');
+INSERT INTO ORDERS VALUES (108,2,DATE '2024-07-01','완료');
+
+INSERT INTO ORDER_ITEM VALUES (101,1,1);
+INSERT INTO ORDER_ITEM VALUES (101,2,2);
+INSERT INTO ORDER_ITEM VALUES (102,3,1);
+INSERT INTO ORDER_ITEM VALUES (103,5,3);
+INSERT INTO ORDER_ITEM VALUES (103,6,2);
+INSERT INTO ORDER_ITEM VALUES (104,8,1);
+INSERT INTO ORDER_ITEM VALUES (105,2,1);
+INSERT INTO ORDER_ITEM VALUES (105,4,2);
+INSERT INTO ORDER_ITEM VALUES (106,7,1);
+INSERT INTO ORDER_ITEM VALUES (107,5,1);
+INSERT INTO ORDER_ITEM VALUES (108,1,1);
+INSERT INTO ORDER_ITEM VALUES (108,8,1);
+
+INSERT INTO DEPARTMENT VALUES (1,'개발');
+INSERT INTO DEPARTMENT VALUES (2,'영업');
+INSERT INTO DEPARTMENT VALUES (3,'인사');
+
+INSERT INTO EMPLOYEE VALUES (1,'한사장',NULL,10000000,NULL,DATE '2015-01-01');
+INSERT INTO EMPLOYEE VALUES (2,'조개발',1,8000000,1,DATE '2016-03-01');
+INSERT INTO EMPLOYEE VALUES (3,'김개발',1,5500000,2,DATE '2019-05-01');
+INSERT INTO EMPLOYEE VALUES (4,'이코딩',1,5000000,2,DATE '2021-08-15');
+INSERT INTO EMPLOYEE VALUES (5,'윤영업',2,7000000,1,DATE '2017-02-01');
+INSERT INTO EMPLOYEE VALUES (6,'박세일',2,4800000,5,DATE '2020-11-20');
+INSERT INTO EMPLOYEE VALUES (7,'최인사',3,4500000,1,DATE '2022-04-01');
+
+COMMIT;

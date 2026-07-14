@@ -1,0 +1,14 @@
+# 제3자 저작물 — 공개 저장소에 재배포하지 않음
+현대오토에버_14일_코딩테스트_입문_워크북.pdf
+
+# 빌드/미리보기 임시 파일
+prep/_preview*.html
+
+# 컴파일 산출물
+*.class
+
+# OS/에디터
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
