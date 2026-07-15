@@ -2,7 +2,7 @@
 <html lang="ko"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>롯데이노베이트 코테 공략집 1편</title>
+<title>LE 코테 공략집 1편</title>
 <style>
 :root{
   --bg:#ffffff; --fg:#1f2328; --muted:#6b7280; --accent:#c8102e; --accent2:#0b5cad;
@@ -61,257 +61,145 @@ img{max-width:100%}
 .tasklist{list-style:none;padding-left:.2em}
 .task-list-item{margin:.2em 0}
 .task-list-item input{margin-right:.5em}
+
+details.ans{margin:.7em 0;border:1px solid var(--border);border-radius:10px;background:var(--code-bg)}
+details.ans>summary{cursor:pointer;padding:.6em .9em;font-weight:700;color:var(--accent2);list-style:none}
+details.ans>summary::-webkit-details-marker{display:none}
+details.ans>summary::before{content:"▸ "}
+details.ans[open]>summary::before{content:"▾ "}
+details.ans>.inner{padding:0 .9em .8em}
+.toc li.part{margin:.7em 0 .15em;font-size:.76em;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.fab{position:fixed;right:12px;bottom:12px;display:flex;flex-direction:column;gap:8px;z-index:9}
+.fab a,.fab button{display:block;padding:.5em .8em;border-radius:999px;border:1px solid var(--border);background:var(--bg);color:var(--fg);font-size:.82em;font-family:inherit;box-shadow:0 2px 8px rgba(0,0,0,.18);text-align:center;text-decoration:none;cursor:pointer}
 </style>
 </head><body><a id="top"></a><div class="wrap">
 <div class="cover">
-<h1>롯데이노베이트 코딩테스트 공략집 <small>1편</small></h1>
-<div class="sub">경력직 · Java · Oracle SQL — 지하철에서 읽는 한 권</div>
+<h1>LE 코딩테스트 공략집 <small>1편</small></h1>
+<div class="sub">문제 + 풀이 중심 · Java · Oracle SQL — 기초 개념부터 차근차근</div>
 <span class="badge">SQL 1 + 알고 2</span><span class="badge">Lv.2~3</span>
 <span class="badge b2">Oracle</span><span class="badge b2">Java 21 검증</span>
-<p style="font-size:.9em;color:var(--muted);margin-top:.8em">
-Java 답지는 컴파일·실행 검증, SQL 결과는 sqlite 대조·문법은 Oracle 검수.
-시험 스펙은 공개 후기 기반 추정이며 실제 안내가 우선입니다.</p>
+<p style="font-size:.9em;margin-top:.8em"><strong>읽는 순서</strong>:
+❶ <a href="#chA">기초 개념</a> (시간복잡도가 뭔지 모른다면 여기부터) →
+❷ <a href="#chB">뭐가 나오나</a> (빈출·필수 유형) →
+❸ <a href="#ch1">유형별 공략</a> → ❹ 문제 + 풀이 (도형·SQL·모의고사)</p>
+<p style="font-size:.85em;color:var(--muted)">시험 정보·학습 플랜·면접 대비는 <a href="#ch0">부록</a>으로 뺐습니다.
+Java 답지는 컴파일·실행 검증, SQL은 실제 Oracle 23c 실행 검증. 시험 스펙은 공개 후기 기반 추정.</p>
 </div>
-<nav class="toc"><h2>목차</h2><ol><li><a href="#ch0"><span class="n">01</span> 📍 시작 — 로드맵 &amp; 시험 전략</a></li><li><a href="#ch1"><span class="n">02</span> 🧠 알고리즘 치트시트</a></li><li><a href="#ch2"><span class="n">03</span> 🔷 도형·행렬 공략</a></li><li><a href="#ch3"><span class="n">04</span> 🗄️ SQL 트랙 안내</a></li><li><a href="#ch4"><span class="n">05</span> 🗄️ SQL 치트시트 (Oracle)</a></li><li><a href="#ch5"><span class="n">06</span> SQL 01 · SELECT/정렬</a></li><li><a href="#ch6"><span class="n">07</span> SQL 02 · GROUP BY/HAVING</a></li><li><a href="#ch7"><span class="n">08</span> SQL 03 · JOIN</a></li><li><a href="#ch8"><span class="n">09</span> SQL 04 · 서브쿼리</a></li><li><a href="#ch9"><span class="n">10</span> SQL 05 · 윈도우함수</a></li><li><a href="#ch10"><span class="n">11</span> SQL 06 · 날짜/문자열</a></li><li><a href="#ch11"><span class="n">12</span> SQL 07 · NULL/CASE/TOP-N</a></li><li><a href="#ch12"><span class="n">13</span> 🎤 기술면접·CS 노트</a></li><li><a href="#ch13"><span class="n">14</span> 📝 실전 모의고사 #1</a></li><li><a href="#ch14"><span class="n">15</span> 부록 · 연습 스키마 (Oracle)</a></li></ol></nav>
-<section id="ch0" class="chapter"><div class="chtag">CH 01</div><h1 id="java">🎯 롯데이노베이트 코딩테스트 공략 로드맵 (경력직 · Java)</h1>
+<blockquote><p><strong>시험 한 줄 요약</strong> — 프로그래머스 온라인 · <strong>SQL 1문제(Oracle) + 알고리즘 2문제(Java · Lv.2~3)</strong> · 약 120분 · 점수 비공개(반례는 스스로 검증). 근거는 <a href="#ch0">부록 A</a>.</p></blockquote>
+<nav class="toc"><h2>목차</h2><ol>
+<li class="part">시작하기</li>
+<li><a href="#chA"><span class="n">01</span> 🧱 코테 기초 개념 — 시간복잡도가 뭐지?</a></li>
+<li><a href="#chB"><span class="n">02</span> 📊 뭐가 나오나 — 빈출 유형 &amp; 우선순위</a></li>
+<li class="part">알고리즘 — 개념 · 템플릿 · 문제</li>
+<li><a href="#ch1"><span class="n">03</span> 🧠 알고리즘 유형별 공략 (Java)</a></li>
+<li><a href="#ch2"><span class="n">04</span> 🔷 도형·행렬 문제 3제 (LE 단골)</a></li>
+<li class="part">SQL (Oracle) — 문제 + 풀이</li>
+<li><a href="#ch4"><span class="n">05</span> 🗄️ SQL 치트시트</a></li>
+<li><a href="#ch5"><span class="n">06</span> SQL 01 · SELECT/정렬</a></li>
+<li><a href="#ch6"><span class="n">07</span> SQL 02 · GROUP BY/HAVING</a></li>
+<li><a href="#ch7"><span class="n">08</span> SQL 03 · JOIN</a></li>
+<li><a href="#ch8"><span class="n">09</span> SQL 04 · 서브쿼리</a></li>
+<li><a href="#ch9"><span class="n">10</span> SQL 05 · 윈도우함수</a></li>
+<li><a href="#ch10"><span class="n">11</span> SQL 06 · 날짜/문자열</a></li>
+<li><a href="#ch11"><span class="n">12</span> SQL 07 · NULL/CASE/TOP-N</a></li>
+<li class="part">실전</li>
+<li><a href="#ch13"><span class="n">13</span> 📝 실전 모의고사 #1 (120분)</a></li>
+<li class="part">부록</li>
+<li><a href="#ch0"><span class="n">A</span> 📎 시험 정보 · 3주 로드맵 · 전략</a></li>
+<li><a href="#ch12"><span class="n">B</span> 🎤 기술면접 · CS 노트</a></li>
+<li><a href="#ch14"><span class="n">C</span> 📦 연습 스키마 (Oracle)</a></li>
+</ol></nav>
+<section id="chA" class="chapter"><div class="chtag">CH 01</div><h1>🧱 코테 기초 개념 — 아무것도 몰라도 되는 출발점</h1>
 <blockquote>
-<p><strong>이 문서는 "지하철에서 폰으로 눈으로 읽는" 용도</strong>로 만들었습니다.
-짧은 문단 · 표 · 체크리스트 위주. 위에서 아래로 죽 읽으면 됩니다.
-상세 공략본은 각 섹션 끝의 링크로 연결됩니다.</p>
+<p>"시간복잡도가 뭔지 모르겠다"면 <strong>이 장부터</strong>. 여기 나온 개념만 알면 뒤의 모든 설명이 그대로 읽힙니다. 이미 아는 부분은 건너뛰세요.</p>
 </blockquote>
-<hr />
-<h2 id="0-30">0. 30초 요약 (이것만 기억)</h2>
+<h2>1. 시간복잡도(Time Complexity) — 딱 이것만</h2>
+<p><strong>한 문장 정의</strong>: 입력(n)이 커질 때 <strong>계산 횟수가 얼마나 빨리 불어나는지</strong>를 나타내는 지표. "몇 초 걸리나"가 아니라 <strong>증가 속도</strong>를 봅니다.</p>
+<p><strong>왜 필요한가</strong>: 코딩테스트엔 시간 제한(보통 1~10초)이 있습니다. 컴퓨터는 대략 <strong>1초에 1억(10⁸)번</strong>의 단순 연산을 합니다. 내 풀이의 연산 횟수가 이걸 크게 넘으면 <strong>로직이 맞아도 "시간 초과"로 오답</strong> 처리됩니다. 그래서 코딩을 시작하기 전에 "이 방법이면 대략 몇 번 계산하지?"를 어림하는 습관이 필요합니다.</p>
+<p><strong>Big-O 표기법</strong>: 연산 횟수에서 <strong>가장 빨리 커지는 항만 남기고 나머지는 버리는</strong> 표기법입니다. 예: 연산 횟수가 3n² + 5n + 2번이라면, n이 커질수록 n² 항이 지배하므로 <strong>O(n²)</strong>라고 씁니다.</p>
+<div class="tblwrap"><table>
+<thead><tr><th>표기</th><th>이름</th><th>대표 예</th><th>n=10만일 때 연산 수</th></tr></thead>
+<tbody>
+<tr><td><code>O(1)</code></td><td>상수</td><td>배열 인덱스 접근, 해시맵 조회</td><td>1</td></tr>
+<tr><td><code>O(log n)</code></td><td>로그</td><td>이분탐색</td><td>약 17</td></tr>
+<tr><td><code>O(n)</code></td><td>선형</td><td>배열 한 번 훑기</td><td>10만</td></tr>
+<tr><td><code>O(n log n)</code></td><td>선형로그</td><td>정렬(<code>Arrays.sort</code>)</td><td>약 170만</td></tr>
+<tr><td><code>O(n²)</code></td><td>제곱</td><td>이중 for문</td><td>100억 → ⚠️ 시간 초과</td></tr>
+<tr><td><code>O(2ⁿ)</code></td><td>지수</td><td>부분집합 전부 나열</td><td>n=20만 돼도 약 100만</td></tr>
+<tr><td><code>O(n!)</code></td><td>팩토리얼</td><td>순열 전부 나열</td><td>n=10만 돼도 약 360만</td></tr>
+</tbody></table></div>
+<blockquote>
+<p>💡 읽는 법: O(n²)은 "입력이 10배면 계산은 100배". 반대로 O(log n)은 반씩 쪼개므로 입력이 100만이어도 약 20번이면 끝.</p>
+</blockquote>
+<h3>실전 사용법 — 제약조건 보고 알고리즘 고르기</h3>
+<p>문제에 적힌 <strong>입력 크기(제약조건)</strong>를 보면 어떤 복잡도까지 허용되는지 역산할 수 있습니다. 이게 유형 선택의 출발점입니다.</p>
+<div class="tblwrap"><table>
+<thead><tr><th>n 크기</th><th>허용 복잡도</th><th>후보 알고리즘</th></tr></thead>
+<tbody>
+<tr><td>n ≤ 20</td><td>O(2ⁿ)</td><td>완전탐색 · 백트래킹 · 비트마스크</td></tr>
+<tr><td>n ≤ 500</td><td>O(n³)</td><td>3중 루프</td></tr>
+<tr><td>n ≤ 5,000</td><td>O(n²)</td><td>이중 루프 · 2차원 DP</td></tr>
+<tr><td>n ≤ 100,000</td><td>O(n log n)</td><td>정렬 · 힙 · 이분탐색</td></tr>
+<tr><td>n ≤ 10,000,000</td><td>O(n)</td><td>한 번 훑기 · 누적합 · 해시</td></tr>
+<tr><td>그 이상</td><td>O(log n) · O(1)</td><td>이분탐색 · 수학 공식</td></tr>
+</tbody></table></div>
+<blockquote>
+<p>예: n=100,000인데 이중 for문(O(n²))을 쓰면 100억 번 ≈ 100초 → <strong>시간 초과</strong>. "정렬이나 해시로 줄여야겠구나"라고 판단하는 것 — 시간복잡도를 배우는 이유는 이게 전부입니다.</p>
+</blockquote>
+<h2>2. 공간복잡도 — 30초면 충분</h2>
+<p>같은 개념의 <strong>메모리 버전</strong>입니다. 예: 길이 n짜리 배열 = O(n), n×n 2차원 배열 = O(n²). 코테에선 보통 시간이 먼저 터지므로 "2차원 배열 크기가 억 단위면 위험" 정도의 감각이면 됩니다.</p>
+<h2>3. 자료구조 미니 사전 (비유로 한 번에)</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>자료구조</th><th>비유</th><th>속도</th><th>어디에 쓰나</th></tr></thead>
+<tbody>
+<tr><td>배열(Array)</td><td>번호 붙은 사물함</td><td>i번째 접근 O(1)</td><td>거의 모든 문제의 기본</td></tr>
+<tr><td>스택(Stack)</td><td>접시 쌓기 — 나중에 올린 게 먼저 나감(LIFO)</td><td>넣기/빼기 O(1)</td><td>괄호 검사, DFS</td></tr>
+<tr><td>큐(Queue)</td><td>줄서기 — 먼저 온 사람 먼저(FIFO)</td><td>넣기/빼기 O(1)</td><td><strong>BFS</strong></td></tr>
+<tr><td>해시맵(HashMap)</td><td>이름표 → 값 사전</td><td>넣기/찾기 평균 O(1)</td><td>개수 세기, 매핑</td></tr>
+<tr><td>힙 / 우선순위 큐</td><td>항상 제일 급한 사람이 맨 앞인 줄</td><td>넣기/빼기 O(log n)</td><td>다익스트라, 최소·최대 반복 추출</td></tr>
+<tr><td>그래프(Graph)</td><td>점(정점)과 선(간선)의 관계도</td><td>—</td><td>미로·격자도 사실 그래프</td></tr>
+</tbody></table></div>
+<p>Java에선 스택·큐 둘 다 <code>ArrayDeque</code> 하나로 씁니다(스택은 push/pop, 큐는 offer/poll).</p>
+<h2>4. 자주 나오는 용어 (뒤에서 계속 등장)</h2>
 <ul>
-<li>플랫폼: <strong>프로그래머스 온라인</strong>, <code>class Solution</code> 제출형 (지금 <code>code_pack</code>이랑 동일)</li>
-<li>구성: <strong>SQL 1문제 + 알고리즘 2문제 (총 3문제)</strong>, 난이도 <strong>프로그래머스 Lv.2~3</strong></li>
-<li><strong>SQL DBMS = Oracle</strong> ⭐ (MySQL 문법 <code>LIMIT</code>/<code>IFNULL</code>/<code>DATE_FORMAT</code> 쓰면 에러 — <a href="#ch4">SQL 치트시트</a> 참고)</li>
-<li>제한시간: <strong>약 120분 (추정)</strong> — 셋 다 풀기엔 빡셈. <strong>SQL에서 시간 빨리는 게 최대 함정</strong></li>
-<li>채점: <strong>예시 테스트케이스만 보이고, 제출 후 점수 비공개</strong> → <em>내가 반례를 직접 만들어 검증해야 함</em></li>
-<li>경력직: <strong>SQL 비중 체감이 큼</strong>. 알고리즘은 "정확히 1개 완벽 + 1개 부분"만 해도 경쟁력.</li>
-</ul>
-<h3 id="_1">실전 시간 배분 전략 (경력직 안전 운영)</h3>
-<pre><code>120분 기준
-├─ 00~05분 : 3문제 전부 읽고 난이도 스캔 → 쉬운 순서 정하기
-├─ 05~35분 : SQL 먼저 (가장 확실한 득점, 30분 컷. 안 풀리면 잠깐 미루기)
-├─ 35~80분 : 알고리즘 A (자신 있는 유형부터, 45분)
-├─ 80~110분: 알고리즘 B (30분, 완주 어려우면 부분 케이스라도)
-└─110~120분: 검증 — 경계값/빈입력/최대입력 반례 직접 대입
-</code></pre>
+<li><strong>정점(node) · 간선(edge)</strong>: 그래프의 점과 선. 미로의 칸 = 정점, 이웃 칸끼리의 연결 = 간선.</li>
+<li><strong>방문 배열(visited)</strong>: 이미 가 본 곳 표시. 없으면 같은 곳을 무한 반복.</li>
+<li><strong>점화식</strong>: "현재 답 = 이전 답들의 조합"인 식. 예: dp[i] = dp[i-1] + dp[i-2]. DP의 심장.</li>
+<li><strong>메모이제이션</strong>: 한 번 계산한 답을 표에 저장해서 재계산을 막는 것.</li>
+<li><strong>엣지 케이스 / 반례</strong>: 경계 상황(빈 입력, n=1, 최댓값). LE는 점수를 안 보여주므로 <strong>스스로 만들어 검증</strong>해야 함.</li>
+<li><strong>오버플로</strong>: <code>int</code>는 최대 약 21억. 합계·곱셈이 커지면 <code>long</code>.</li>
+</ul><a class="totop" href="#top">↑ 목차</a></section>
+<section id="chB" class="chapter"><div class="chtag">CH 02</div><h1>📊 뭐가 나오나 — 빈출 유형 &amp; 필수 우선순위</h1>
 <blockquote>
-<p>⚠️ 롯데는 점수를 안 보여줌. "제출했더니 통과처럼 보임"에 속지 말 것. <strong>엣지케이스는 내 머리로 설계.</strong></p>
+<p>LE 코테는 <strong>SQL 1문제 + 알고리즘 2문제</strong>(프로그래머스 Lv.2~3). 알고리즘 2문제는 아래 유형 풀에서 나옵니다. <strong>전부 공부할 필요 없습니다</strong> — 필수(★★★)부터.</p>
 </blockquote>
-<hr />
-<h2 id="1">1. 시험 스펙 (조사 결과)</h2>
+<h2>1. 출제 빈도 &amp; 필수도</h2>
 <div class="tblwrap"><table>
-<thead>
-<tr>
-<th>항목</th>
-<th>내용</th>
-<th>근거 신뢰도</th>
-</tr>
-</thead>
+<thead><tr><th>유형</th><th>빈도</th><th>필수도</th><th>왜</th><th>바로가기</th></tr></thead>
 <tbody>
-<tr>
-<td>플랫폼</td>
-<td>프로그래머스 온라인 (<code>class Solution</code>)</td>
-<td>높음</td>
-</tr>
-<tr>
-<td>감독</td>
-<td>웹캠/휴대폰으로 본인 촬영 프록토링 (신입 후기 기준)</td>
-<td>중간</td>
-</tr>
-<tr>
-<td>문제 수</td>
-<td>SQL 1 + 알고리즘 2 = 3문제 (일부 후기 4문제)</td>
-<td>높음</td>
-</tr>
-<tr>
-<td>난이도</td>
-<td>프로그래머스 Lv.2~3</td>
-<td>높음</td>
-</tr>
-<tr>
-<td>알고리즘 유형</td>
-<td>구현·배열, DP, DFS/그래프, 완전탐색, <strong>도형·행렬</strong></td>
-<td>높음</td>
-</tr>
-<tr>
-<td>SQL (<strong>Oracle</strong>)</td>
-<td>JOIN·서브쿼리·집계 / "함수 암기보다 연습"</td>
-<td>높음</td>
-</tr>
-<tr>
-<td>언어</td>
-<td>사전 공지, 프로그래머스 지원 언어 중 선택</td>
-<td>중간</td>
-</tr>
-</tbody>
-</table></div>
+<tr><td>구현·시뮬레이션 (도형·행렬 포함)</td><td>★★★</td><td><strong>필수</strong></td><td>LE 후기 최다 — "행렬 숫자 채우기, 삼각형, 피라미드"</td><td><a href="#ch2">도형·행렬</a></td></tr>
+<tr><td>BFS / DFS</td><td>★★★</td><td><strong>필수</strong></td><td>미로 최단거리·덩어리 세기 — 코테 단골 중의 단골</td><td><a href="#ch1">§3 · §4</a></td></tr>
+<tr><td>DP (동적계획법)</td><td>★★☆</td><td><strong>필수</strong></td><td>계단·경로·배낭 — Lv.2~3 변별 문제</td><td><a href="#ch1">§8 · §9</a></td></tr>
+<tr><td>정렬·그리디</td><td>★★☆</td><td>권장</td><td>나오면 빠른 득점 문제</td><td><a href="#ch1">§5</a></td></tr>
+<tr><td>완전탐색·백트래킹</td><td>★★☆</td><td>권장</td><td>N이 작으면(≤20) 무조건 이쪽</td><td><a href="#ch1">§10</a></td></tr>
+<tr><td>누적합·이분탐색</td><td>★☆☆</td><td>권장</td><td>알면 계산이 극적으로 빨라짐</td><td><a href="#ch1">§11 · §12</a></td></tr>
+<tr><td>우선순위큐·다익스트라</td><td>★☆☆</td><td>여유 있으면</td><td>비용이 제각각인 최단거리용</td><td><a href="#ch1">§6 · §7</a></td></tr>
+<tr><td>비트마스크·Union-Find</td><td>☆</td><td>보너스</td><td>나오면 어려운 문제 — 부분점수 전략</td><td><a href="#ch1">§13 · §14</a></td></tr>
+</tbody></table></div>
 <blockquote>
-<p>회사 이력: <strong>롯데정보통신 → 2024년 롯데이노베이트로 사명 변경</strong>. 후기 검색 시 두 이름 모두 확인.
-경력직 전용 후기는 공개 자료가 희박 → 신입 공채 후기 기반 + 경력 일반론으로 구성.</p>
+<p>🎯 <strong>현실적인 목표</strong>: 알고리즘 2문제 중 <strong>1개 완벽 + 1개 부분점수</strong>면 충분히 경쟁력. 그러려면 필수 3종(구현 · BFS/DFS · DP)을 확실히.</p>
 </blockquote>
-<hr />
-<h2 id="2-3-d-18-d-day">2. 3주 학습 로드맵 (D-18 → D-Day)</h2>
-<p>날짜 고정이 아니라 <strong>D-day 역산</strong>입니다. 기간이 짧으면 Phase 1을 압축하세요.
-매일 자산: <code>code_pack</code>(알고리즘) + <code>prep/algo</code>(보강) + <code>prep/sql</code>(SQL).</p>
-<h3 id="phase-1-sql-d-18-d-13-6">📅 Phase 1 — 감각 회복 + SQL 시동 (D-18 ~ D-13, 6일)</h3>
+<h2>2. 공부 순서 추천</h2>
+<ol>
+<li><strong>구현 + 도형·행렬</strong> — 알고리즘 이론 없이도 풀 수 있고, LE 최다 빈출 → <a href="#ch2">CH 04</a></li>
+<li><strong>BFS / DFS</strong> — "최단 거리"와 "덩어리 세기"는 나온다고 생각하고 준비</li>
+<li><strong>DP</strong> — 점화식 감각. 계단 오르기부터</li>
+<li><strong>정렬·그리디·완전탐색</strong> — 득점 속도 올리기</li>
+<li>나머지는 시간 남으면</li>
+</ol>
+<h2>3. 문제 읽고 유형 알아채기 (인식 → 대응)</h2>
 <blockquote>
-<p>목표: "손이 다시 기억나게." 알고리즘 기본기 + SQL SELECT/집계 몸풀기.</p>
-</blockquote>
-<div class="tblwrap"><table>
-<thead>
-<tr>
-<th>Day</th>
-<th>알고리즘 (code_pack 실습)</th>
-<th>SQL (매일 30분)</th>
-<th>읽을 공략본</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>D-18</td>
-<td>Day01 구현·시뮬</td>
-<td>SELECT·WHERE·ORDER BY</td>
-<td><a href="#ch1">algo 치트시트 §구현</a> · <a href="#ch4">SQL 치트시트</a></td>
-</tr>
-<tr>
-<td>D-17</td>
-<td>Day02 BFS</td>
-<td>GROUP BY·HAVING</td>
-<td><a href="#ch1">치트시트 §BFS</a> · <a href="#ch6">SQL 02</a></td>
-</tr>
-<tr>
-<td>D-16</td>
-<td>Day03 DFS</td>
-<td>집계함수·DISTINCT</td>
-<td><a href="#ch1">치트시트 §DFS</a> · <a href="#ch5">SQL 01</a></td>
-</tr>
-<tr>
-<td>D-15</td>
-<td>Day04 정렬·그리디</td>
-<td>INNER JOIN</td>
-<td><a href="#ch1">치트시트 §그리디</a></td>
-</tr>
-<tr>
-<td>D-14</td>
-<td>Day05 우선순위 큐</td>
-<td>LEFT JOIN·NULL</td>
-<td><a href="#ch1">치트시트 §PQ</a> · <a href="#ch7">SQL 03 JOIN</a></td>
-</tr>
-<tr>
-<td>D-13</td>
-<td>Day06 다익스트라</td>
-<td>서브쿼리(스칼라)</td>
-<td><a href="#ch1">치트시트 §다익스트라</a> · <a href="#ch8">SQL 04</a></td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="phase-2-sql-d-12-d-6-7">📅 Phase 2 — 심화 유형 + SQL 심화 + 도형 (D-12 ~ D-6, 7일)</h3>
-<blockquote>
-<p>목표: 출제 빈출 심화(DP/백트래킹/비트마스크) + 롯데 특화 <strong>도형·행렬</strong> + SQL 상관/윈도우.</p>
-</blockquote>
-<div class="tblwrap"><table>
-<thead>
-<tr>
-<th>Day</th>
-<th>알고리즘 (code_pack 실습)</th>
-<th>SQL</th>
-<th>읽을 공략본</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>D-12</td>
-<td>Day08 기본 DP</td>
-<td>상관 서브쿼리</td>
-<td><a href="#ch1">치트시트 §DP</a> · <a href="#ch8">SQL 04</a></td>
-</tr>
-<tr>
-<td>D-11</td>
-<td>Day09 배낭 DP</td>
-<td>윈도우함수(RANK/ROW_NUMBER)</td>
-<td><a href="#ch1">치트시트 §배낭</a> · <a href="#ch9">SQL 05 윈도우</a></td>
-</tr>
-<tr>
-<td>D-10</td>
-<td>Day10 백트래킹</td>
-<td>날짜함수</td>
-<td><a href="#ch1">치트시트 §백트래킹</a> · <a href="#ch10">SQL 06</a></td>
-</tr>
-<tr>
-<td>D-9</td>
-<td>Day11 누적합·이분탐색</td>
-<td>문자열함수</td>
-<td><a href="#ch1">치트시트 §이분탐색</a> · <a href="#ch10">SQL 06</a></td>
-</tr>
-<tr>
-<td>D-8</td>
-<td><strong>도형·행렬 (신규 보강)</strong></td>
-<td>NULL·CASE·NVL</td>
-<td><a href="#ch2">90 도형·행렬 공략</a> · <a href="#ch11">SQL 07</a></td>
-</tr>
-<tr>
-<td>D-7</td>
-<td>Day12 비트마스크 BFS</td>
-<td>그룹별 TOP-N</td>
-<td><a href="#ch1">치트시트 §비트마스크</a> · <a href="#ch11">SQL 07</a></td>
-</tr>
-<tr>
-<td>D-6</td>
-<td>Day13 비트마스크 DP</td>
-<td>SQL 총복습(고득점 키트)</td>
-<td>—</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="phase-3-d-5-d-day-6">📅 Phase 3 — 실전화 (D-5 ~ D-Day, 6일)</h3>
-<blockquote>
-<p>목표: 시간 압박 하에서 "SQL 1 + 알고 2"를 실제로 돌려보기 + 오답 + 면접.</p>
-</blockquote>
-<div class="tblwrap"><table>
-<thead>
-<tr>
-<th>Day</th>
-<th>할 일</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>D-5</td>
-<td><strong>실전 모의 1회</strong> (SQL1+알고2, 120분 타이머) → 오답 분석</td>
-</tr>
-<tr>
-<td>D-4</td>
-<td>틀린/막힌 유형 공략본 재독 + 재풀이</td>
-</tr>
-<tr>
-<td>D-3</td>
-<td><strong>실전 모의 2회</strong> → 시간배분 점검</td>
-</tr>
-<tr>
-<td>D-2</td>
-<td><a href="#ch12">기술면접·CS 노트</a> 정독 (경력 면접 대비)</td>
-</tr>
-<tr>
-<td>D-1</td>
-<td>치트시트 2종 + 오답노트만 가볍게. <strong>일찍 자기.</strong></td>
-</tr>
-<tr>
-<td>D-Day</td>
-<td>아침에 치트시트 훑기 → 프록토링 환경(카메라/조용한 공간) 미리 세팅</td>
-</tr>
-</tbody>
-</table></div>
-<blockquote>
-<p>기간이 <strong>1주 이내</strong>면: Phase 1 스킵, [algo 치트시트] + [SQL 치트시트] + 도형 + 실전모의 1회로 압축.</p>
-</blockquote>
-<hr />
-<h2 id="3">3. 알고리즘 유형 "인식 → 대응" 초압축표</h2>
-<blockquote>
-<p>문제를 읽고 <strong>어떤 신호가 보이면 어떤 유형인지</strong> 즉시 판단하는 게 핵심.
-상세 템플릿·해설은 → <a href="#ch1">algo/00_알고리즘_치트시트.md</a></p>
+<p>시험장에서 가장 중요한 기술. 문제에 <strong>이런 신호가 보이면 이 유형</strong>입니다. 각 유형의 상세 설명·코드는 <a href="#ch1">다음 장</a>.</p>
 </blockquote>
 <div class="tblwrap"><table>
 <thead>
@@ -384,74 +272,32 @@ Java 답지는 컴파일·실행 검증, SQL 결과는 sqlite 대조·문법은 
 </tr>
 </tbody>
 </table></div>
-<hr />
-<h2 id="4-sql">4. SQL 핵심 (경력직 최우선)</h2>
-<p>⭐ <strong>DBMS는 Oracle.</strong> 상세는 → <a href="#ch4">sql/00_SQL_치트시트.md</a>, <a href="#ch3">sql/README.md</a></p>
-<p><strong>꼭 몸에 붙여야 할 7개 패턴 (Oracle):</strong>
-1. <code>JOIN</code> — 없는 행까지 보려면 <code>LEFT JOIN</code> + <code>IS NULL</code>
-2. <code>GROUP BY … HAVING</code> — 집계 후 조건은 <code>HAVING</code>. <strong>GROUP BY엔 별칭 불가(식 반복)</strong>
-3. 상관 서브쿼리 — "각 그룹의 최댓값 행"
-4. <strong>윈도우함수</strong> — <code>ROW_NUMBER()/RANK() OVER(PARTITION BY … ORDER BY …)</code> → 그룹별 TOP-N
-5. <strong>상위 N개</strong> — <code>LIMIT</code> 없음! 정렬한 인라인뷰 + <code>ROWNUM &lt;= N</code>, 또는 <code>FETCH FIRST N ROWS ONLY</code>(12c+)
-6. 날짜/문자 — <code>TO_CHAR</code>, <code>EXTRACT</code>, <code>TO_DATE</code>, <code>||</code>(연결), <code>NVL</code>, <code>DECODE</code>, <code>REGEXP_LIKE</code>
-7. <code>NULL</code> → <code>IS NULL</code> / <code>NVL(COALESCE)</code> / <code>CASE WHEN</code></p>
+<a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch1" class="chapter"><div class="chtag">CH 03</div><h1>🧠 알고리즘 유형별 공략 (Java) — 개념 · 인식 · 템플릿 · 함정</h1>
 <blockquote>
-<p>⚠️ MySQL 습관(<code>LIMIT</code>,<code>IFNULL</code>,<code>DATE_FORMAT</code>,<code>YEAR()</code>,<code>CONCAT</code> 다인자) 그대로 쓰면 <strong>오라클에서 에러</strong>.
-⏱ SQL은 "정답을 한 번에" 나와야 함 → <strong>문법 암기 &lt; 손 연습</strong>.</p>
-</blockquote>
-<hr />
-<h2 id="5-cs">5. 기술면접·CS (경력 대비)</h2>
-<p>코테 통과 후 <strong>기술면접</strong>에서 나올 것들. 상세 → <a href="#ch12">interview/기술면접_CS_노트.md</a></p>
-<ul>
-<li><strong>DB</strong>: 인덱스(B-Tree/커버링), 정규화 vs 반정규화, 트랜잭션 ACID, 격리수준(4단계)과 이상현상, 실행계획 읽기, 조인 알고리즘</li>
-<li><strong>자료구조/복잡도</strong>: 해시 vs 트리, Big-O, 언제 뭘 쓰나</li>
-<li><strong>Java</strong>: GC, <code>HashMap</code> 동작, <code>equals/hashCode</code>, 불변객체, 동시성 기초</li>
-<li><strong>설계/실무</strong>: REST, 트랜잭션 경계, N+1, 캐시, 대용량 처리 경험 → 본인 프로젝트로 답변 준비</li>
-</ul>
-<hr />
-<h2 id="6">6. 롯데 특화 최종 체크리스트</h2>
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>class Solution</code> 제출형 + 예시 케이스만 보임 → <strong>반례 직접 설계</strong> 습관</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> SQL 30분 컷 타이머 감각 (시간 트랩 1순위)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 도형·행렬 유형 1회 이상 손으로 완주</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 프로그래머스 <strong>SQL 고득점 키트</strong> 완주</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 프로그래머스 계정으로 <code>class Solution</code> 제출 UI 미리 익히기</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 프록토링: 조용한 공간 + 휴대폰 거치대(본인 촬영) 사전 점검</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 자주 쓰는 Java import/입출력 스니펫 손에 익히기</li>
-</ul>
-<hr />
-<h2 id="_2">📎 부록 — 참고 링크</h2>
-<ul>
-<li>프로그래머스 SQL 고득점 키트: https://school.programmers.co.kr/learn/challenges?tab=sql_practice_kit</li>
-<li>프로그래머스 코딩테스트 고득점 키트: https://school.programmers.co.kr/learn/challenges?tab=algorithm_practice_kit</li>
-<li>롯데이노베이트 코테 후기(velog): https://velog.io/@kpark2000</li>
-<li>잡플래닛 면접후기: https://www.jobplanet.co.kr/companies/35657</li>
-</ul>
-<p><em>본 로드맵의 시험 스펙은 공개 후기 기반 추정입니다. 실제 공고/안내 메일이 있으면 그 기준이 우선입니다.</em></p><a class="totop" href="#top">↑ 목차</a></section><section id="ch1" class="chapter"><div class="chtag">CH 02</div><h1 id="java">🧠 알고리즘 유형별 치트시트 (Java)</h1>
-<blockquote>
-<p><strong>읽는 법</strong>: 각 유형은 [언제 이 유형인가 → 접근 → 템플릿 → 함정] 순서.
+<p><strong>읽는 법</strong>: 각 유형은 [📖 개념(처음이라면 여기부터) → 언제 이 유형인가 → 접근 → 템플릿 → 함정] 순서.
 지하철에서 "신호 → 대응"만 반복해서 눈에 익히면 시험장에서 유형 판단이 0초.
 코드는 프로그래머스 <code>class Solution</code> 안에 넣는다는 가정.</p>
 </blockquote>
 <h2 id="_1">📇 목차</h2>
 <ol>
-<li><a href="#1-입출력기본-스니펫">입출력·기본 스니펫</a></li>
-<li><a href="#2-구현시뮬레이션">구현·시뮬레이션</a></li>
-<li><a href="#3-bfs">BFS</a></li>
-<li><a href="#4-dfs--flood-fill">DFS / flood fill</a></li>
-<li><a href="#5-정렬그리디">정렬·그리디</a></li>
-<li><a href="#6-우선순위-큐">우선순위 큐</a></li>
-<li><a href="#7-다익스트라">다익스트라</a></li>
-<li><a href="#8-dp">DP</a></li>
-<li><a href="#9-배낭-dp">배낭 DP</a></li>
-<li><a href="#10-백트래킹">백트래킹</a></li>
-<li><a href="#11-누적합">누적합</a></li>
-<li><a href="#12-이분탐색--파라메트릭-서치">이분탐색 / 파라메트릭</a></li>
-<li><a href="#13-비트마스크">비트마스크</a></li>
-<li><a href="#14-union-find-보너스">Union-Find (보너스)</a></li>
+<li><a href="#algo-1">입출력·기본 스니펫</a></li>
+<li><a href="#algo-2">구현·시뮬레이션</a></li>
+<li><a href="#algo-3">BFS</a></li>
+<li><a href="#algo-4">DFS / flood fill</a></li>
+<li><a href="#algo-5">정렬·그리디</a></li>
+<li><a href="#algo-6">우선순위 큐</a></li>
+<li><a href="#algo-7">다익스트라</a></li>
+<li><a href="#algo-8">DP</a></li>
+<li><a href="#algo-9">배낭 DP</a></li>
+<li><a href="#algo-10">백트래킹</a></li>
+<li><a href="#algo-11">누적합</a></li>
+<li><a href="#algo-12">이분탐색 / 파라메트릭</a></li>
+<li><a href="#algo-13">비트마스크</a></li>
+<li><a href="#algo-14">Union-Find (보너스)</a></li>
 </ol>
 <hr />
-<h2 id="1">1. 입출력·기본 스니펫</h2>
+<h2 id="algo-1">1. 입출력·기본 스니펫</h2>
 <p>프로그래머스는 보통 <code>solution(...)</code> 인자로 입력이 들어오지만, 백준식 표준입력도 대비.</p>
 <pre><code class="language-java">import java.util.*;
 import java.io.*;
@@ -476,7 +322,8 @@ int[] dc = {0, 0, -1, 1};
 // 8방향이면 {-1,-1,-1,0,0,1,1,1}, {-1,0,1,-1,1,-1,0,1}
 </code></pre>
 <hr />
-<h2 id="2">2. 구현·시뮬레이션</h2>
+<h2 id="algo-2">2. 구현·시뮬레이션</h2>
+<blockquote><p>📖 <strong>개념</strong>: 특별한 이론이 없는 유형입니다. <strong>문제 지문이 곧 명세서</strong> — 시키는 규칙을 코드로 "정확히" 옮기는 힘을 봅니다. 알고리즘 지식보다 꼼꼼함(경계·인덱스·순서)이 점수를 가릅니다.</p></blockquote>
 <p><strong>🔎 언제</strong>: "시키는 규칙대로 그대로 처리", 로봇 이동, 시계방향 회전, 시간 흐름 처리. 특별한 알고리즘 없이 <strong>정확한 상태 관리</strong>가 전부.</p>
 <p><strong>🧭 접근</strong>: (1) 상태를 무엇으로 표현할지 먼저 정한다 (2) 규칙을 함수로 잘게 쪼갠다 (3) 한 스텝씩 손으로 따라가며 검증.</p>
 <p><strong>⚠️ 함정</strong>: 경계 처리, 1-index/0-index 혼동, 회전/방향 순서. 규칙을 "대충 기억"하지 말고 문제 그대로 옮길 것.</p>
@@ -488,7 +335,8 @@ if (out(nr,nc) || wall) dir = (dir+1) % 4; // 우회전
 else { r = nr; c = nc; }
 </code></pre>
 <hr />
-<h2 id="3-bfs">3. BFS</h2>
+<h2 id="algo-3">3. BFS</h2>
+<blockquote><p>📖 <strong>개념</strong>: BFS(너비 우선 탐색)는 시작점에서 <strong>가까운 칸부터 물결처럼 한 겹씩</strong> 퍼져나가는 탐색입니다. 거리 1인 칸을 전부 본 뒤에야 거리 2를 보기 때문에, 어떤 칸에 <strong>처음 도착한 순간이 곧 최단 거리</strong>임이 보장됩니다(모든 이동 비용이 같을 때). "먼저 온 순서대로" 처리해야 하므로 큐(줄서기)를 씁니다.</p></blockquote>
 <p><strong>🔎 언제</strong>: "<strong>최소 이동 횟수/최단 거리</strong>"인데 <strong>모든 이동 비용이 동일(=1)</strong>. 격자·미로·전파(불/바이러스)·레벨 단위 확산.</p>
 <p><strong>🧭 접근</strong>: 시작점을 큐에 넣고 거리 0 → 큐에서 꺼내 4방향 확장, 처음 도달할 때가 최단.</p>
 <p><strong>⚠️ 함정</strong>: 방문 표시는 <strong>큐에 넣을 때</strong> 해야 중복 방지. 거리 배열을 방문표시로 겸하면 깔끔.</p>
@@ -514,7 +362,8 @@ else { r = nr; c = nc; }
 </code></pre>
 <p><strong>시간복잡도</strong>: O(V+E). 격자면 O(R·C).</p>
 <hr />
-<h2 id="4-dfs-flood-fill">4. DFS / flood fill</h2>
+<h2 id="algo-4">4. DFS / flood fill</h2>
+<blockquote><p>📖 <strong>개념</strong>: DFS(깊이 우선 탐색)는 <strong>한 방향으로 끝까지 파고들다 막히면 되돌아와</strong> 다른 길을 가는 탐색입니다. 미로에서 한쪽 벽에 손을 짚고 계속 걷는 것과 같습니다. "서로 연결된 것 몽땅 찾기"(섬·덩어리 세기)에 자연스럽고, 보통 재귀(자기 자신을 호출하는 함수)로 짧게 구현합니다. 시간복잡도는 BFS와 같은 O(V+E).</p></blockquote>
 <p><strong>🔎 언제</strong>: "<strong>연결된 덩어리 개수</strong>", 영역 크기, 섬 개수, 경로 존재 여부. 깊이 우선으로 끝까지 파고듦.</p>
 <p><strong>🧭 접근</strong>: 방문 안 한 칸에서 DFS 시작 → 재귀로 사방 전파 → 한 번의 DFS = 한 덩어리.</p>
 <p><strong>⚠️ 함정</strong>: 격자가 크면 재귀 깊이 스택오버플로 → 스택 자료구조로 전환 고려. 방문 체크 필수.</p>
@@ -535,7 +384,8 @@ for (int i=0;i&lt;R;i++) for (int j=0;j&lt;C;j++)
     if (g[i][j]==1 &amp;&amp; !vis[i][j]) { dfs(i,j); count++; }
 </code></pre>
 <hr />
-<h2 id="5">5. 정렬·그리디</h2>
+<h2 id="algo-5">5. 정렬·그리디</h2>
+<blockquote><p>📖 <strong>개념</strong>: 그리디(탐욕법)는 <strong>매 순간 가장 좋아 보이는 선택을 하면 전체도 최선</strong>이 되는 문제에서 씁니다. 예: 거스름돈을 큰 동전부터 주기. 단 "지금의 최선이 미래를 망치지 않는다"가 성립해야 하며, 대부분 <strong>정렬을 먼저</strong> 한 뒤 앞에서부터 선택하는 모양이 됩니다.</p></blockquote>
 <p><strong>🔎 언제</strong>: "최대/최소로 만들기", "가장 많이/적게", 회의실 배정, 동전, 마감 정렬. <strong>매 순간 최선을 고르면 전체 최선</strong>이 성립할 때.</p>
 <p><strong>🧭 접근</strong>: <strong>정렬 기준 설계가 90%</strong>. "무엇을 기준으로 정렬하면 탐욕이 성립하나?"를 먼저 증명하듯 생각.</p>
 <p><strong>⚠️ 함정</strong>: 그리디가 성립하는지 반례로 의심. 안 되면 DP. 정수 오버플로(합계는 <code>long</code>).</p>
@@ -548,7 +398,8 @@ for (int[] m : meet)
 // Comparator 국룰: 오름차순 a-b, 내림차순 b-a (오버플로 주의 시 Integer.compare)
 </code></pre>
 <hr />
-<h2 id="6">6. 우선순위 큐</h2>
+<h2 id="algo-6">6. 우선순위 큐</h2>
+<blockquote><p>📖 <strong>개념</strong>: 우선순위 큐(힙)는 <strong>항상 가장 작은(또는 큰) 값이 맨 앞에 서 있는 줄</strong>입니다. 일반 큐는 온 순서대로지만, 이 큐는 넣을 때마다 자동 정렬됩니다(넣기/빼기 O(log n)). "매번 최솟값을 꺼내야 하는" 문제의 정답 도구.</p></blockquote>
 <p><strong>🔎 언제</strong>: "매번 가장 급한/작은/큰 것을 꺼낸다". K번째, 실시간 최소/최대, 작업 스케줄링, 병합.</p>
 <p><strong>🧭 접근</strong>: 최소힙 기본. 최대힙은 <code>Collections.reverseOrder()</code> 또는 <code>(a,b)-&gt;b-a</code>.</p>
 <p><strong>⚠️ 함정</strong>: <code>poll()</code> 후 유효성 재검사(지연 삭제 패턴). 커스텀 정렬은 <code>Comparator</code> 명확히.</p>
@@ -558,7 +409,8 @@ pq.offer(new int[]{cost, node});
 int[] top = pq.poll();
 </code></pre>
 <hr />
-<h2 id="7">7. 다익스트라</h2>
+<h2 id="algo-7">7. 다익스트라</h2>
+<blockquote><p>📖 <strong>개념</strong>: 다익스트라는 <strong>BFS의 업그레이드</strong>입니다. BFS는 모든 이동 비용이 같을 때만 최단을 보장하는데, 길마다 비용이 다르면 "지금까지 가장 싸게 도달한 곳"부터 차례로 확정해 나가야 합니다. 그 "가장 싼 곳 먼저"를 위해 우선순위 큐를 씁니다.</p></blockquote>
 <p><strong>🔎 언제</strong>: "최단 거리/최소 비용"인데 <strong>간선마다 비용이 다름</strong>(양수). BFS로 안 되는 가중 그래프.</p>
 <p><strong>🧭 접근</strong>: <code>dist[]</code>를 INF로 초기화 → 시작점 0 → PQ에서 최소 비용 노드 꺼내 완화(relax).</p>
 <p><strong>⚠️ 함정</strong>: 음수 간선이면 다익스트라 불가(벨만포드). <code>dist</code>는 <code>long</code> 고려. 꺼낸 게 이미 갱신된 값보다 크면 skip.</p>
@@ -585,7 +437,8 @@ int[] top = pq.poll();
 </code></pre>
 <p><strong>시간복잡도</strong>: O(E log V).</p>
 <hr />
-<h2 id="8-dp">8. DP</h2>
+<h2 id="algo-8">8. DP</h2>
+<blockquote><p>📖 <strong>개념</strong>: DP(동적계획법)는 <strong>큰 문제의 답을 작은 문제의 답으로 조립</strong>하는 기법입니다. 피보나치를 그냥 재귀로 짜면 같은 계산을 수없이 반복하지만(O(2ⁿ)), 한 번 구한 답을 표(dp 배열)에 저장해두면 각 항을 한 번씩만 계산합니다(O(n)). 그 조립 공식이 <strong>점화식</strong>(예: dp[i] = dp[i-1] + dp[i-2])입니다.</p></blockquote>
 <p><strong>🔎 언제</strong>: "이전 답으로 현재 답", 겹치는 부분문제 + 최적 부분구조. 계단·피보나치·최장부분수열·경로 수·최소 비용.</p>
 <p><strong>🧭 접근</strong>: (1) 상태 정의 <code>dp[i]=…</code> (2) 점화식 (3) 초기값 (4) 계산 순서. <strong>"dp[i]가 뭘 의미하는지" 한 문장으로 말할 수 있어야 함.</strong></p>
 <p><strong>⚠️ 함정</strong>: 상태 정의 모호하면 다 틀림. 배열 크기/초기값. 합은 <code>long</code>.</p>
@@ -606,7 +459,8 @@ for (int i=0;i&lt;R;i++) for (int j=0;j&lt;C;j++) {
 }
 </code></pre>
 <hr />
-<h2 id="9-dp">9. 배낭 DP</h2>
+<h2 id="algo-9">9. 배낭 DP</h2>
+<blockquote><p>📖 <strong>개념</strong>: DP의 대표 응용문제입니다. "용량이 제한된 배낭에 <strong>가치가 최대</strong>가 되도록 물건 담기". 물건마다 넣을까/말까를 전부 시도하면 O(2ⁿ)이지만, dp[용량]="이 용량으로 만들 수 있는 최대 가치" 표를 채우면 O(물건 수 × 용량)으로 끝납니다.</p></blockquote>
 <p><strong>🔎 언제</strong>: "무게/용량 한정, 가치 최대". 0/1 배낭(각 물건 1개), 부분합 만들기.</p>
 <p><strong>🧭 접근</strong>: <code>dp[w]</code> = 용량 w일 때 최대 가치. <strong>물건 루프 안에서 용량은 역순</strong>(0/1 배낭 핵심).</p>
 <p><strong>⚠️ 함정</strong>: 용량 정순으로 돌면 같은 물건 중복 사용됨(그건 무한 배낭). 0/1은 반드시 역순.</p>
@@ -619,7 +473,8 @@ for (int[] item : items) {        // item = {weight, value}
 return dp[cap];
 </code></pre>
 <hr />
-<h2 id="10">10. 백트래킹</h2>
+<h2 id="algo-10">10. 백트래킹</h2>
+<blockquote><p>📖 <strong>개념</strong>: 모든 경우의 수를 나무(트리) 모양으로 하나씩 시도하되, <strong>조건상 틀려버린 가지는 즉시 포기하고 되돌아가는</strong>(backtrack) 기법입니다. "고르고 → 더 깊이 들어가고 → 돌아와서 고른 걸 취소" 3박자가 핵심. 경우의 수가 지수적으로 늘어나므로 N이 작을 때(≤20)만 씁니다.</p></blockquote>
 <p><strong>🔎 언제</strong>: "모든 경우의 수", 순열·조합·부분집합, N-Queen, 조건 만족 조합 찾기. <strong>N이 작음(≤ 약 20)</strong>.</p>
 <p><strong>🧭 접근</strong>: 선택 → 재귀 → <strong>되돌리기(undo)</strong>. 가지치기(pruning)로 불가능한 가지 조기 차단.</p>
 <p><strong>⚠️ 함정</strong>: 되돌리기 누락 → 오답. 방문/사용 배열 상태 복원 필수. 지수 시간이라 N 확인.</p>
@@ -645,7 +500,8 @@ void perm(int[] arr, boolean[] used, List&lt;Integer&gt; cur, List&lt;List&lt;In
 }
 </code></pre>
 <hr />
-<h2 id="11">11. 누적합</h2>
+<h2 id="algo-11">11. 누적합</h2>
+<blockquote><p>📖 <strong>개념</strong>: 구간 합을 매번 더하면 조회마다 O(n)이지만, <strong>"처음부터 i까지의 합"을 미리 배열로</strong> 만들어 두면 어떤 구간 합도 뺄셈 한 번(O(1))으로 나옵니다. "구간 [l,r]의 합을 여러 번 묻는" 문제의 정답.</p></blockquote>
 <p><strong>🔎 언제</strong>: "구간 [l,r] 합을 여러 번 조회", 2D 부분합, 이동평균. 미리 계산해두고 O(1) 조회.</p>
 <p><strong>🧭 접근</strong>: <code>prefix[i] = prefix[i-1] + a[i]</code>. 구간합 = <code>prefix[r] - prefix[l-1]</code>.</p>
 <p><strong>⚠️ 함정</strong>: 인덱스 off-by-one. 합은 <code>long</code>.</p>
@@ -659,7 +515,8 @@ for (int i=1;i&lt;=R;i++) for (int j=1;j&lt;=C;j++)
     p[i][j] = g[i-1][j-1] + p[i-1][j] + p[i][j-1] - p[i-1][j-1];
 </code></pre>
 <hr />
-<h2 id="12">12. 이분탐색 / 파라메트릭 서치</h2>
+<h2 id="algo-12">12. 이분탐색 / 파라메트릭 서치</h2>
+<blockquote><p>📖 <strong>개념</strong>: 업다운 숫자 맞히기 게임입니다. <strong>정렬된 범위에서 가운데를 확인하고 절반을 통째로 버리기</strong>를 반복 — 100만 개도 약 20번(log₂ 100만)이면 찾습니다. 응용인 파라메트릭 서치는 "정답이 될 수 있는 값" 자체를 이분탐색하는 것.</p></blockquote>
 <p><strong>🔎 언제</strong>: 정렬된 배열에서 값 찾기. 또는 <strong>"~을 최대/최소로 하는 최적값"</strong>(파라메트릭): 랜선 자르기, 예산, 최소 최대거리.</p>
 <p><strong>🧭 접근</strong>: 정답을 이분. <code>check(mid)</code>가 만족하면 범위를 좁힘. "가능/불가능"이 단조로울 때만.</p>
 <p><strong>⚠️ 함정</strong>: <code>mid = lo + (hi-lo)/2</code> (오버플로 방지). lo/hi 갱신 방향, 종료 조건.</p>
@@ -683,7 +540,8 @@ while (lo &lt;= hi) {
 }
 </code></pre>
 <hr />
-<h2 id="13">13. 비트마스크</h2>
+<h2 id="algo-13">13. 비트마스크</h2>
+<blockquote><p>📖 <strong>개념</strong>: 집합을 2진수 비트로 표현하는 기술입니다. 예: {0번, 2번} 선택 = 101₍₂₎ = 정수 5. <strong>집합 하나가 int 하나</strong>로 표현되니, "방문한 도시들의 집합" 같은 상태를 배열 인덱스로 쓸 수 있게 됩니다.</p></blockquote>
 <p><strong>🔎 언제</strong>: "부분집합/방문상태를 저장", 외판원(TSP), 상태압축 DP. <strong>원소 수 N ≤ 약 20</strong>(2^20 ≈ 100만).</p>
 <p><strong>🧭 접근</strong>: 집합을 정수 비트로. i번째 포함 여부 = <code>(mask &gt;&gt; i) &amp; 1</code>.</p>
 <p><strong>⚠️ 함정</strong>: 연산자 우선순위(<code>&amp;</code>는 <code>==</code>보다 낮음 → 괄호). <code>1 &lt;&lt; i</code>에서 i 크면 <code>1L</code>.</p>
@@ -697,7 +555,8 @@ int bits = Integer.bitCount(mask);    // 켜진 비트 수
 // dp[mask][cur] = 지금까지 방문 mask, 현재 cur일 때 최소비용
 </code></pre>
 <hr />
-<h2 id="14-union-find">14. Union-Find (보너스)</h2>
+<h2 id="algo-14">14. Union-Find (보너스)</h2>
+<blockquote><p>📖 <strong>개념</strong>: "두 원소가 <strong>같은 그룹인가?</strong>"를 빠르게 답하는 자료구조입니다. 각 그룹의 대표(뿌리)를 기억해두고, find로 대표를 찾고 union으로 두 그룹을 합칩니다.</p></blockquote>
 <p><strong>🔎 언제</strong>: "같은 그룹인가", 사이클 판별, 연결 요소, 크루스칼 MST. 도형/그래프 문제에서 종종 유용.</p>
 <pre><code class="language-java">int[] parent;
 int find(int x) { return parent[x]==x ? x : (parent[x]=find(parent[x])); }
@@ -708,7 +567,8 @@ void union(int a, int b) { parent[find(a)] = find(b); }
 <blockquote>
 <p>✅ <strong>시험 직전 3분 루틴</strong>: (1) 방향배열 손코딩 (2) BFS/DFS 뼈대 (3) 다익스트라 PQ 정렬 방향 (4) 0/1 배낭 "역순" (5) 백트래킹 "되돌리기".
 이 5개만 손이 기억하면 Lv.2~3 알고리즘 2문제 중 1~1.5개는 확보.</p>
-</blockquote><a class="totop" href="#top">↑ 목차</a></section><section id="ch2" class="chapter"><div class="chtag">CH 03</div><h1 id="_1">🔷 도형·행렬 구현 공략 (롯데 단골)</h1>
+</blockquote><a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch2" class="chapter"><div class="chtag">CH 04</div><h1 id="_1">🔷 도형·행렬 구현 공략 (LE 단골)</h1>
 <blockquote>
 <p>후기에서 "<strong>Matrix 숫자 채우기, 삼각형, 피라미드</strong>" 유형이 반복 언급됨.
 특별한 알고리즘이 아니라 <strong>방향 제어 + 경계 처리</strong>가 전부인 구현 문제.
@@ -824,100 +684,24 @@ int[] dc = {1, 0, -1, 0};
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> "벽 or 채워짐 → <code>dir=(dir+1)%4</code>" 패턴</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 채우기 카운터 <code>v++</code>, 빈칸 표식(0) 충돌 주의</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 가변 길이 배열(삼각형)은 <code>new int[n][]</code></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 제출 전 작은 예제(n=3,4)를 손으로 그려 대조 (롯데는 점수 비공개!)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 제출 전 작은 예제(n=3,4)를 손으로 그려 대조 (LE는 점수 비공개!)</li>
 </ul>
 <blockquote>
 <p>추가 연습: 백준 2941/2566(행렬 최댓값 위치), 2563/2477(도형 면적), 프로그래머스 "행렬의 곱셈"·"직사각형" 계열.</p>
-</blockquote><a class="totop" href="#top">↑ 목차</a></section><section id="ch3" class="chapter"><div class="chtag">CH 04</div><h1 id="sql">🗄️ SQL 트랙 (경력직 최우선)</h1>
+</blockquote><a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch4" class="chapter"><div class="chtag">CH 05</div><h1 id="sql-oracle">🗄️ SQL 치트시트 (⭐ Oracle)</h1>
 <blockquote>
-<p>롯데이노베이트 코테는 <strong>SQL 1문제</strong>가 고정 출제되고, 경력직은 체감 비중이 더 큽니다.
-"함수 암기"가 아니라 <strong>패턴을 눈에 바르고 손으로 빠르게</strong> 나오게 하는 게 목표.
-⭐ <strong>DBMS는 Oracle.</strong> 모든 답지는 <strong>Oracle 문법</strong>으로 작성했습니다 (LIMIT❌ → ROWNUM/FETCH, IFNULL❌ → NVL 등).</p>
+<p>LE 코테 SQL은 <strong>Oracle</strong>. MySQL 습관(LIMIT/IFNULL/DATE_FORMAT)이 그대로 나가면 에러.
+지하철에서 이 한 장만 반복해서 눈에 바르면 Lv.2~3 SQL은 대부분 커버.</p>
 </blockquote>
-<h2 id="_1">📚 공략본 순서 (읽기용, 각 파일 = [지문→정답→해설→함정])</h2>
-<div class="tblwrap"><table>
-<thead>
-<tr>
-<th>#</th>
-<th>파일</th>
-<th>핵심</th>
-<th>프로그래머스 고득점 키트 대응</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>00</td>
-<td><a href="#ch4">SQL 치트시트</a></td>
-<td>절 실행순서·문법 요약</td>
-<td>(전체)</td>
-</tr>
-<tr>
-<td>01</td>
-<td><a href="#ch5">SELECT·정렬·조건</a></td>
-<td>WHERE, ORDER BY, LIMIT, DISTINCT</td>
-<td>SELECT</td>
-</tr>
-<tr>
-<td>02</td>
-<td><a href="#ch6">집계·GROUP BY·HAVING</a></td>
-<td>SUM/AVG/COUNT, HAVING</td>
-<td>합계·평균 / GROUP BY</td>
-</tr>
-<tr>
-<td>03</td>
-<td><a href="#ch7">JOIN</a></td>
-<td>INNER/LEFT, 다중조인, IS NULL</td>
-<td>JOIN / IS NULL</td>
-</tr>
-<tr>
-<td>04</td>
-<td><a href="#ch8">서브쿼리</a></td>
-<td>스칼라·IN·상관 서브쿼리</td>
-<td>GROUP BY 심화</td>
-</tr>
-<tr>
-<td>05</td>
-<td><a href="#ch9">윈도우함수</a></td>
-<td>RANK/ROW_NUMBER/집계 OVER</td>
-<td>(고난도 단골)</td>
-</tr>
-<tr>
-<td>06</td>
-<td><a href="#ch10">날짜·문자열</a></td>
-<td>TO_CHAR, EXTRACT, SUBSTR, LIKE</td>
-<td>String, Date</td>
-</tr>
-<tr>
-<td>07</td>
-<td><a href="#ch11">NULL·CASE·그룹별 TOP-N</a></td>
-<td>NVL, CASE, 그룹 1위</td>
-<td>IS NULL 심화</td>
-</tr>
-</tbody>
-</table></div>
-<h2 id="10">🏋️ 학습법 (지하철 + 저녁 10분)</h2>
-<ol>
-<li><strong>지하철(읽기)</strong>: 공략본을 위→아래로 읽으며 "이 지문이면 이 절"을 눈에 바름.</li>
-<li><strong>저녁(손코딩)</strong>: <a href="https://school.programmers.co.kr/learn/challenges?tab=sql_practice_kit">프로그래머스 SQL 고득점 키트</a>에서 같은 유형 2~3문제를 <strong>직접 타이핑</strong>. 눈으로 아는 것과 손이 아는 건 다름.</li>
-<li>틀리면 → 해당 공략본의 "흔한 실수" 섹션 재독.</li>
-</ol>
-<h2 id="_2">🧪 스키마 연습 환경</h2>
-<ul>
-<li><code>schema.sql</code> = <strong>Oracle용</strong>. Oracle(로컬/사내 계정)이나 온라인 오라클(예: Oracle Live SQL, dbfiddle Oracle)에 붙여넣어 답지 쿼리를 돌려보세요.</li>
-<li>환경이 번거로우면 [프로그래머스 SQL 고득점 키트]에서 <strong>Oracle을 선택</strong>해 바로 연습(실전과 동일 환경).</li>
-<li>도메인: <strong>전자상거래</strong>(MEMBER·PRODUCT·ORDERS·ORDER_ITEM) + <strong>인사</strong>(DEPARTMENT·EMPLOYEE).</li>
-</ul>
 <h2 id="sql-30">⏱️ 시험장 SQL 30분 컷 루틴</h2>
 <ol>
 <li>요구사항에서 <strong>출력 컬럼 · 정렬 · 필터</strong>를 먼저 밑줄 (지문 독해가 절반)</li>
 <li>FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY 순으로 뼈대</li>
 <li>그룹별 1위/순위 요구면 <strong>윈도우함수</strong> 먼저 떠올리기</li>
 <li>제출 전: 정렬 기준·동점 처리·NULL 포함 여부 재확인</li>
-</ol><a class="totop" href="#top">↑ 목차</a></section><section id="ch4" class="chapter"><div class="chtag">CH 05</div><h1 id="sql-oracle">🗄️ SQL 치트시트 (⭐ Oracle)</h1>
-<blockquote>
-<p>롯데 코테 SQL은 <strong>Oracle</strong>. MySQL 습관(LIMIT/IFNULL/DATE_FORMAT)이 그대로 나가면 에러.
-지하철에서 이 한 장만 반복해서 눈에 바르면 Lv.2~3 SQL은 대부분 커버.</p>
-</blockquote>
+</ol>
+<hr />
 <h2 id="1">1. 절 실행 순서 (⭐ 가장 중요)</h2>
 <p>작성 순서와 <strong>실행 순서가 다르다.</strong></p>
 <pre><code>작성:  SELECT → FROM → JOIN → WHERE → GROUP BY → HAVING → ORDER BY
@@ -1085,7 +869,8 @@ DECODE(gender,'M','남','F','여','기타')  -- Oracle 전용 간이 분기
 <li><code>CONCAT(a,b,c)</code> 3개 인자 → Oracle CONCAT은 2개만, <code>||</code> 사용</li>
 <li>DATE 컬럼을 문자열과 직접 비교 (NLS 의존)</li>
 <li>정렬 동점 처리 안 함 → 2차 정렬 키 추가</li>
-</ol><a class="totop" href="#top">↑ 목차</a></section><section id="ch5" class="chapter"><div class="chtag">CH 06</div><h1 id="sql-01-select">SQL 01 — SELECT · 조건 · 정렬</h1>
+</ol><a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch5" class="chapter"><div class="chtag">CH 06</div><h1 id="sql-01-select">SQL 01 — SELECT · 조건 · 정렬</h1>
 <blockquote>
 <p>스키마: <a href="schema.sql">schema.sql</a> · 기본기지만 <strong>정렬 동점 처리</strong>와 <strong>LIMIT</strong>에서 실수가 잦음.</p>
 </blockquote>
@@ -1095,7 +880,7 @@ DECODE(gender,'M','남','F','여','기타')  -- Oracle 전용 간이 분기
 <p><code>MEMBER</code>에서 <strong>서울에 사는 회원</strong>의 이름(name)과 나이(age)를,
 <strong>나이가 어린 순</strong>으로 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT name, age
 FROM MEMBER
 WHERE city = '서울'
@@ -1106,13 +891,13 @@ ORDER BY age ASC;
 - 결과: 정하늘(19) → 김철수(25) → 박민수(41).</p>
 <p><strong>⚠️ 함정</strong>: 문자열 조건은 따옴표 필수(<code>'서울'</code>). 나이 같은 사람이 있으면 순서가 흔들리므로, 실전에선 <code>ORDER BY age, name</code>처럼 2차 키를 붙이는 습관.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: SELECT 카테고리 — "동물 보호소" 계열 기본 조회.</p>
-<hr />
+</div></details><hr />
 <h2 id="2-10">문제 2. 10만 원 초과 상품 (비싼 순)</h2>
 <blockquote>
 <p><code>PRODUCT</code>에서 <strong>가격이 100000원을 초과</strong>하는 상품의 이름과 가격을,
 <strong>비싼 순</strong>으로 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT name, price
 FROM PRODUCT
 WHERE price &gt; 100000
@@ -1121,14 +906,14 @@ ORDER BY price DESC;
 <p><strong>해설</strong>
 - 숫자 비교엔 따옴표 X. <code>&gt;</code>(초과)와 <code>&gt;=</code>(이상) 구분 — 지문의 "초과/이상/미만/이하"에 밑줄 긋는 습관.
 - 결과: 노트북(1,200,000) → 모니터(350,000).</p>
-<p><strong>⚠️ 함정</strong>: "초과"인데 <code>&gt;=</code>로 쓰면 경계값 하나 틀림. 롯데는 점수를 안 보여주므로 이런 경계 실수를 스스로 잡아야 함.</p>
+<p><strong>⚠️ 함정</strong>: "초과"인데 <code>&gt;=</code>로 쓰면 경계값 하나 틀림. LE는 점수를 안 보여주므로 이런 경계 실수를 스스로 잡아야 함.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: SELECT — 조건 필터 + 정렬.</p>
-<hr />
+</div></details><hr />
 <h2 id="3">문제 3. 회원이 사는 도시 목록</h2>
 <blockquote>
 <p><code>MEMBER</code>에 등장하는 <strong>도시(city)를 중복 없이</strong> 가나다순으로 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT DISTINCT city
 FROM MEMBER
 ORDER BY city ASC;
@@ -1138,12 +923,12 @@ ORDER BY city ASC;
 - 여러 컬럼에 <code>DISTINCT</code>를 쓰면 "그 조합"이 유일한 행만 남음.</p>
 <p><strong>⚠️ 함정</strong>: <code>DISTINCT</code>는 특정 한 컬럼에만 거는 게 아니라 <code>SELECT</code> 목록 전체에 적용됨. <code>SELECT DISTINCT a, b</code>는 <code>a</code>만 유일이 아니라 <code>(a,b)</code> 조합이 유일.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: SELECT — "중복 제거".</p>
-<hr />
+</div></details><hr />
 <h2 id="4-3-limit">문제 4. 가장 비싼 상품 3개 (LIMIT)</h2>
 <blockquote>
 <p><code>PRODUCT</code>에서 <strong>가장 비싼 상품 3개</strong>의 이름과 가격을 비싼 순으로 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong> — ⭐ Oracle엔 <code>LIMIT</code>이 없다</p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong> — ⭐ Oracle엔 <code>LIMIT</code>이 없다</p>
 <pre><code class="language-sql">-- 방법 A (모든 버전): 정렬한 인라인 뷰를 ROWNUM으로 자르기
 SELECT name, price
 FROM (
@@ -1163,13 +948,14 @@ FETCH FIRST 3 ROWS ONLY;
 - 그래서 <strong>정렬을 인라인 뷰 안에서 끝낸 뒤</strong> 바깥에서 <code>ROWNUM</code>으로 자르는 게 정석. (그룹별 상위 K는 윈도우함수 → <a href="#ch9">05</a>)</p>
 <p><strong>⚠️ 함정</strong>: MySQL의 <code>LIMIT 3</code> 습관이 그대로 나가면 Oracle에서 문법 에러. "왜 ROWNUM에 ORDER BY 직접 쓰면 안 되나"는 <strong>오라클 면접 단골 질문</strong>이니 원리까지 기억.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: SELECT — "상위 n개"(Oracle 환경 선택).</p>
-<hr />
+</div></details><hr />
 <h3 id="_1">✅ 이 장 핵심</h3>
 <ul>
 <li>지문의 <strong>초과/이상</strong>, <strong>오름/내림</strong>, <strong>상위 n</strong>에 밑줄.</li>
 <li>정렬은 <strong>동점 2차 키</strong>까지 생각.</li>
 <li><code>DISTINCT</code>는 컬럼 조합 전체에 적용.</li>
-</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch6" class="chapter"><div class="chtag">CH 07</div><h1 id="sql-02-group-by-having">SQL 02 — 집계 · GROUP BY · HAVING</h1>
+</ul><a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch6" class="chapter"><div class="chtag">CH 07</div><h1 id="sql-02-group-by-having">SQL 02 — 집계 · GROUP BY · HAVING</h1>
 <blockquote>
 <p>경력직 SQL의 <strong>8할이 여기서 갈림</strong>. "행 필터(WHERE) vs 집계 필터(HAVING)"를 몸에 발라야 함.</p>
 </blockquote>
@@ -1179,7 +965,7 @@ FETCH FIRST 3 ROWS ONLY;
 <p><code>PRODUCT</code>에서 <strong>카테고리별 상품 수와 평균 가격</strong>을 구하되,
 <strong>상품이 2개 이상인 카테고리만</strong>, <strong>평균 가격이 비싼 순</strong>으로 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT category,
        COUNT(*)   AS cnt,
        AVG(price) AS avg_price
@@ -1194,13 +980,13 @@ ORDER BY avg_price DESC;
 - 결과: 전자(3개, 546,333) → 의류(2개, 39,000) → 도서(2개, 35,000). (식품은 1개라 제외)</p>
 <p><strong>⚠️ 함정</strong>: <code>HAVING COUNT(*)&gt;=2</code>를 <code>WHERE COUNT(*)&gt;=2</code>로 쓰면 에러. WHERE는 그룹핑 전이라 집계함수를 모름.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: GROUP BY — "고양이와 개는 몇 마리", "카테고리별 도서 판매량".</p>
-<hr />
+</div></details><hr />
 <h2 id="2">문제 2. 회원별 완료 주문 건수</h2>
 <blockquote>
 <p><code>ORDERS</code>에서 <strong>상태가 '완료'인 주문</strong>을 대상으로, <strong>회원별 주문 건수</strong>를
 <strong>많은 순</strong>으로 조회하세요. (건수 같으면 회원 ID 오름차순)</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT member_id, COUNT(*) AS order_cnt
 FROM ORDERS
 WHERE status = '완료'
@@ -1213,13 +999,13 @@ ORDER BY order_cnt DESC, member_id ASC;
 - 동점(2건)인 m1·m2는 2차 정렬 키 <code>member_id</code>로 순서 확정.</p>
 <p><strong>⚠️ 함정</strong>: WHERE와 HAVING을 헷갈리면 논리는 맞아도 성능/정확성이 흔들림. <strong>"행 조건=WHERE, 집계 조건=HAVING"</strong> 암기.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: GROUP BY + 동점 정렬.</p>
-<hr />
+</div></details><hr />
 <h2 id="3">문제 3. 평균 연봉이 높은 부서</h2>
 <blockquote>
 <p><code>EMPLOYEE</code>에서 <strong>부서(dept_id)가 있는 직원</strong>을 대상으로,
 <strong>부서별 평균 연봉이 500만 원 이상</strong>인 부서를 평균 연봉 내림차순으로 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT dept_id, AVG(salary) AS avg_sal
 FROM EMPLOYEE
 WHERE dept_id IS NOT NULL
@@ -1233,13 +1019,14 @@ ORDER BY avg_sal DESC;
 - 결과: 개발(6,166,666) → 영업(5,900,000). 인사(4,500,000)는 미달로 제외.</p>
 <p><strong>⚠️ 함정</strong>: NULL은 <code>= NULL</code>이 아니라 <code>IS NULL</code>/<code>IS NOT NULL</code>. 그리고 이 필터는 집계 전이라 WHERE가 맞음.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: GROUP BY + HAVING 조합(고득점 단골).</p>
-<hr />
+</div></details><hr />
 <h3 id="_1">✅ 이 장 핵심</h3>
 <ul>
 <li><strong>WHERE = 그룹핑 전 행 필터 / HAVING = 그룹핑 후 집계 필터</strong></li>
 <li>집계함수: <code>COUNT(*)</code>(전체행), <code>COUNT(col)</code>(NULL 제외), <code>SUM/AVG/MAX/MIN</code></li>
 <li>정렬은 항상 <strong>동점 2차 키</strong>까지</li>
-</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch7" class="chapter"><div class="chtag">CH 08</div><h1 id="sql-03-join">SQL 03 — JOIN</h1>
+</ul><a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch7" class="chapter"><div class="chtag">CH 08</div><h1 id="sql-03-join">SQL 03 — JOIN</h1>
 <blockquote>
 <p>실무·시험 모두 최빈출. <strong>INNER vs LEFT</strong>, 그리고 <strong>LEFT JOIN + IS NULL</strong>(없는 것 찾기)이 핵심.</p>
 </blockquote>
@@ -1248,7 +1035,7 @@ ORDER BY avg_sal DESC;
 <blockquote>
 <p><strong>한 번도 주문한 적이 없는 회원</strong>의 이름을 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT m.name
 FROM MEMBER m
 LEFT JOIN ORDERS o ON m.member_id = o.member_id
@@ -1260,13 +1047,13 @@ WHERE o.order_id IS NULL;
 - <strong>"~한 적 없는" = LEFT JOIN + IS NULL</strong> 은 통째로 암기하는 패턴.</p>
 <p><strong>⚠️ 함정</strong>: <code>NOT IN (서브쿼리)</code>로도 가능하지만, 서브쿼리에 NULL이 섞이면 결과가 통째로 사라지는 함정이 있음. LEFT JOIN 방식이 안전.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: JOIN — "없어진 기록 찾기", "있었는데요 없었습니다".</p>
-<hr />
+</div></details><hr />
 <h2 id="2-inner-join">문제 2. 완료 주문 내역 (INNER JOIN)</h2>
 <blockquote>
 <p><strong>완료된 주문</strong>에 대해 <strong>주문번호, 주문한 회원 이름, 주문일</strong>을
 주문번호 순으로 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT o.order_id, m.name, o.ordered_at
 FROM ORDERS o
 JOIN MEMBER m ON o.member_id = m.member_id
@@ -1279,13 +1066,13 @@ ORDER BY o.order_id;
 - 별칭(<code>o</code>, <code>m</code>)을 쓰면 컬럼 출처가 명확 → 다중 테이블에서 필수 습관.</p>
 <p><strong>⚠️ 함정</strong>: Oracle <code>DATE</code> 컬럼은 세션 설정에 따라 <code>24/06/05</code> 또는 시간까지 표시될 수 있음. 형식을 고정하려면 <code>TO_CHAR(o.ordered_at, 'YYYY-MM-DD')</code>.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: JOIN 기본.</p>
-<hr />
+</div></details><hr />
 <h2 id="3">문제 3. 상품별 총 판매 수량 (안 팔린 상품 포함)</h2>
 <blockquote>
 <p><strong>모든 상품</strong>에 대해 <strong>총 판매 수량</strong>을 구하세요. 한 번도 안 팔린 상품은 <strong>0</strong>으로.
 상품 ID 순으로 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT p.product_id, p.name,
        NVL(SUM(oi.quantity), 0) AS total_qty
 FROM PRODUCT p
@@ -1299,13 +1086,13 @@ ORDER BY p.product_id;
 - 이 스키마에선 모든 상품이 팔렸지만, "0 포함" 요구는 LEFT JOIN + NVL 패턴을 쓰라는 신호.</p>
 <p><strong>⚠️ 함정</strong>: INNER JOIN으로 하면 안 팔린 상품이 결과에서 사라짐. "모든/전체 ~에 대해"라는 표현은 LEFT JOIN 신호.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: JOIN + 집계.</p>
-<hr />
+</div></details><hr />
 <h2 id="4">문제 4. 회원별 총 결제 금액 (다중 조인)</h2>
 <blockquote>
 <p><strong>완료된 주문 기준</strong>으로 <strong>회원별 총 결제 금액</strong>(수량 × 단가 합)을
 많은 순으로 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT m.member_id, m.name,
        SUM(oi.quantity * p.price) AS total_amount
 FROM MEMBER m
@@ -1321,14 +1108,15 @@ ORDER BY total_amount DESC;
 - 결과: 이영희(1,663,000) → 김철수(1,416,000) → 박민수(153,000) → 정하늘(25,000).</p>
 <p><strong>⚠️ 함정</strong>: 상태 조건을 <code>WHERE o.status='완료'</code>에 넣어도 이 경우엔 동일하지만, LEFT JOIN 상황에선 <code>ON</code>과 <code>WHERE</code>의 위치가 결과를 바꿈(WHERE에 두면 LEFT가 INNER처럼 동작). 금액 합은 큰 수라 실무에선 <code>BIGINT</code>/<code>long</code> 의식.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: JOIN 다중 + 집계(고난도 단골).</p>
-<hr />
+</div></details><hr />
 <h3 id="_1">✅ 이 장 핵심</h3>
 <ul>
 <li><strong>INNER</strong>: 양쪽 다 있는 것 / <strong>LEFT</strong>: 왼쪽 전부 + 없으면 NULL</li>
 <li><strong>"~한 적 없는" → LEFT JOIN + IS NULL</strong></li>
 <li><strong>"모든/전체 ~" → LEFT JOIN (+ NVL 0)</strong></li>
 <li>다중 조인은 별칭 + ON 조건 위치 주의</li>
-</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch8" class="chapter"><div class="chtag">CH 09</div><h1 id="sql-04">SQL 04 — 서브쿼리</h1>
+</ul><a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch8" class="chapter"><div class="chtag">CH 09</div><h1 id="sql-04">SQL 04 — 서브쿼리</h1>
 <blockquote>
 <p>"평균보다 ~", "각 그룹의 최댓값 행" 같은 요구의 정답. 스칼라 / IN / <strong>상관 서브쿼리</strong> 3종.</p>
 </blockquote>
@@ -1337,7 +1125,7 @@ ORDER BY total_amount DESC;
 <blockquote>
 <p><strong>전체 상품 평균 가격보다 비싼</strong> 상품의 이름과 가격을 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT name, price
 FROM PRODUCT
 WHERE price &gt; (SELECT AVG(price) FROM PRODUCT)
@@ -1349,12 +1137,12 @@ ORDER BY product_id;
 - 평균/최대/최소 등 "전체 기준값과 비교"는 스칼라 서브쿼리.</p>
 <p><strong>⚠️ 함정</strong>: 스칼라 서브쿼리는 반드시 값 1개만 반환해야 함. 여러 행 반환하면 에러(<code>=</code> 대신 <code>IN</code> 필요).</p>
 <p><strong>🔗 프로그래머스 대응</strong>: "평균 이상/이하" 유형.</p>
-<hr />
+</div></details><hr />
 <h2 id="2-in">문제 2. 완료 주문을 한 회원 (IN 서브쿼리)</h2>
 <blockquote>
 <p><strong>완료된 주문을 한 번이라도 한 회원</strong>의 이름을 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT name
 FROM MEMBER
 WHERE member_id IN (
@@ -1368,13 +1156,13 @@ ORDER BY member_id;
 - <code>JOIN</code> + <code>DISTINCT</code>로도 가능하지만, "존재 여부"만 볼 땐 <code>IN</code>/<code>EXISTS</code>가 의도가 명확.</p>
 <p><strong>⚠️ 함정</strong>: <code>NOT IN</code>에 NULL이 섞이면 결과가 비어버림. "없는 것"은 <code>NOT EXISTS</code>나 LEFT JOIN이 안전(<a href="#ch7">03</a>).</p>
 <p><strong>🔗 프로그래머스 대응</strong>: 서브쿼리 / EXISTS.</p>
-<hr />
+</div></details><hr />
 <h2 id="3">문제 3. 카테고리별 최고가 상품 (상관 서브쿼리)</h2>
 <blockquote>
 <p><strong>각 카테고리에서 가장 비싼 상품</strong>의 이름, 카테고리, 가격을
 카테고리 순으로 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT p.name, p.category, p.price
 FROM PRODUCT p
 WHERE p.price = (
@@ -1389,14 +1177,15 @@ ORDER BY p.category;
 - "각 그룹의 최댓값을 가진 행"의 대표 패턴. 결과: 도서=자바의정석, 식품=커피원두, 의류=청바지, 전자=노트북.</p>
 <p><strong>⚠️ 함정</strong>: 최댓값이 동점이면 그 카테고리에서 여러 행이 나옴(의도일 수도, 아닐 수도). "정확히 1개"가 필요하면 윈도우함수 <code>ROW_NUMBER</code>(<a href="#ch9">05</a>)가 더 정확.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: "카테고리별 최고가 상품"(고득점 키트 실제 문제와 유사).</p>
-<hr />
+</div></details><hr />
 <h3 id="_1">✅ 이 장 핵심</h3>
 <ul>
 <li><strong>스칼라</strong>(값1): <code>WHERE price &gt; (SELECT AVG...)</code></li>
 <li><strong>IN</strong>(집합): 포함 여부</li>
 <li><strong>상관 서브쿼리</strong>: 그룹별 최대/최소 행 — 바깥 행 참조가 핵심</li>
 <li>"그룹별 정확히 1개"는 윈도우함수가 더 깔끔 → 다음 장</li>
-</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch9" class="chapter"><div class="chtag">CH 10</div><h1 id="sql-05">SQL 05 — 윈도우함수 (경력직 변별력)</h1>
+</ul><a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch9" class="chapter"><div class="chtag">CH 10</div><h1 id="sql-05">SQL 05 — 윈도우함수 (경력직 변별력)</h1>
 <blockquote>
 <p>"<strong>그룹별 순위 / 그룹별 TOP-N / 누적·이동 계산</strong>"의 정답. 신입은 몰라도 되지만 경력직은 알면 확 앞섬.
 형식: <code>함수() OVER (PARTITION BY 그룹 ORDER BY 정렬)</code></p>
@@ -1407,7 +1196,7 @@ ORDER BY p.category;
 <p>부서가 있는 직원에 대해 <strong>부서 안에서 연봉 순위</strong>를 매겨,
 이름·부서·연봉·순위를 조회하세요. (부서, 순위 순)</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT name, dept_id, salary,
        RANK()       OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rnk,
        DENSE_RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS drnk
@@ -1419,18 +1208,14 @@ ORDER BY dept_id, rnk;
 - <code>PARTITION BY dept_id</code> = 부서별로 창(window)을 나눔. <code>ORDER BY salary DESC</code> = 그 안에서 정렬.
 - 개발팀: 조개발(1) → 김개발(2) → 이코딩(3).
 - <strong>RANK vs DENSE_RANK vs ROW_NUMBER</strong>:
-  | | 동점 처리 예 (100,100,90) |
-  |---|---|
-  | <code>ROW_NUMBER()</code> | 1,2,3 (동점도 강제 순번) |
-  | <code>RANK()</code> | 1,1,3 (다음 순위 건너뜀) |
-  | <code>DENSE_RANK()</code> | 1,1,2 (안 건너뜀) |</p>
+  </p><div class="tblwrap"><table><thead><tr><th>함수</th><th>동점 처리 예 (100,100,90)</th></tr></thead><tbody><tr><td><code>ROW_NUMBER()</code></td><td>1,2,3 (동점도 강제 순번)</td></tr><tr><td><code>RANK()</code></td><td>1,1,3 (다음 순위 건너뜀)</td></tr><tr><td><code>DENSE_RANK()</code></td><td>1,1,2 (안 건너뜀)</td></tr></tbody></table></div>
 <p><strong>⚠️ 함정</strong>: 순위 요구인데 <code>LIMIT</code>이나 서브쿼리로 우회하면 그룹별 처리가 지저분해짐. 윈도우함수가 정석.</p>
-<hr />
+</div></details><hr />
 <h2 id="2-1-top-n">문제 2. 부서별 연봉 1위 (그룹별 TOP-N)</h2>
 <blockquote>
 <p><strong>각 부서에서 연봉이 가장 높은 직원 1명씩</strong>을 조회하세요. (부서 순)</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT name, dept_id, salary
 FROM (
     SELECT name, dept_id, salary,
@@ -1446,12 +1231,12 @@ ORDER BY dept_id;
 - 결과: 개발=조개발, 영업=윤영업, 인사=최인사.
 - <strong>이 "감싸서 rn=1" 패턴이 그룹별 TOP-N의 표준 정답.</strong> TOP-3면 <code>rn &lt;= 3</code>.</p>
 <p><strong>⚠️ 함정</strong>: 동점 1위가 둘인데 "정확히 1명"이 필요하면 <code>ORDER BY salary DESC, emp_id</code>처럼 tie-breaker를 넣어야 결정적.</p>
-<hr />
+</div></details><hr />
 <h2 id="3">문제 3. 부서 평균 대비 내 연봉 (집계 윈도우)</h2>
 <blockquote>
 <p>각 직원의 연봉이 <strong>자기 부서 평균 연봉</strong>과 얼마나 차이 나는지 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT name, dept_id, salary,
        AVG(salary) OVER (PARTITION BY dept_id)        AS dept_avg,
        salary - AVG(salary) OVER (PARTITION BY dept_id) AS diff
@@ -1464,14 +1249,15 @@ ORDER BY dept_id, salary DESC;
 - 개발팀 평균 6,166,666 → 조개발은 +1,833,334, 이코딩은 -1,166,666.
 - 이렇게 "개별 행 + 그룹 통계"를 한 번에 보여줘야 할 때 GROUP BY로는 불가, 윈도우가 유일.</p>
 <p><strong>⚠️ 함정</strong>: <code>GROUP BY</code>는 행을 그룹당 1개로 접지만, 윈도우 집계는 원본 행 수를 유지. 목적에 맞게 선택.</p>
-<hr />
+</div></details><hr />
 <h3 id="_1">✅ 이 장 핵심</h3>
 <ul>
 <li><code>함수() OVER (PARTITION BY 그룹 ORDER BY 정렬)</code></li>
 <li>순위 3종: ROW_NUMBER / RANK / DENSE_RANK (동점 처리 차이)</li>
 <li><strong>그룹별 TOP-N = 서브쿼리로 감싸고 <code>rn &lt;= N</code></strong></li>
 <li>집계 윈도우는 행을 안 접고 그룹 통계를 붙임</li>
-</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch10" class="chapter"><div class="chtag">CH 11</div><h1 id="sql-06-oracle">SQL 06 — 날짜 · 문자열 (⭐ Oracle)</h1>
+</ul><a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch10" class="chapter"><div class="chtag">CH 11</div><h1 id="sql-06-oracle">SQL 06 — 날짜 · 문자열 (⭐ Oracle)</h1>
 <blockquote>
 <p>MySQL과 <strong>함수 이름이 가장 많이 다른 파트</strong>. <code>DATE_FORMAT</code>·<code>YEAR()</code>·<code>CONCAT</code>은 오라클에서 안 통함.
 Oracle 기준으로 통일해서 외우세요.</p>
@@ -1481,7 +1267,7 @@ Oracle 기준으로 통일해서 외우세요.</p>
 <blockquote>
 <p><strong>2024년 6월에 접수된 주문</strong>의 주문번호를 주문번호 순으로 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">-- 방법 A: 범위 비교 (인덱스 유리, 권장) — DATE 리터럴 사용
 SELECT order_id
 FROM ORDERS
@@ -1504,12 +1290,12 @@ ORDER BY order_id;
 - MySQL의 <code>YEAR(col)=2024</code>는 오라클에서 <code>EXTRACT(YEAR FROM col)</code>. 그리고 컬럼에 함수 씌우면 인덱스 무력화.
 - <code>WHERE ordered_at &gt;= '2024-06-01'</code>처럼 <strong>문자열로 직접 비교하면 NLS_DATE_FORMAT에 의존</strong>해 에러/오작동 → <code>DATE '...'</code> 또는 <code>TO_DATE</code>로 명시.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: Date 카테고리(Oracle 환경 선택).</p>
-<hr />
+</div></details><hr />
 <h2 id="2">문제 2. 가입 연도별 회원 수</h2>
 <blockquote>
 <p><strong>가입 연도별 회원 수</strong>를 연도 오름차순으로 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT EXTRACT(YEAR FROM joined_at) AS join_year,
        COUNT(*) AS cnt
 FROM MEMBER
@@ -1532,12 +1318,12 @@ TRUNC(d)                             -- 시간 잘라 자정으로
 </code></pre>
 <p><strong>⚠️ 함정</strong>: 출력 형식이 지문과 다르면 오답 처리 → <code>TO_CHAR(col,'YYYY-MM-DD')</code>로 감싸기. Oracle <code>DATE</code>는 시간 성분이 숨어 있으니 비교/집계 시 <code>TRUNC</code> 고려.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: Date 카테고리.</p>
-<hr />
+</div></details><hr />
 <h2 id="3">문제 3. 이름 조건 검색 (문자열)</h2>
 <blockquote>
 <p><strong>이름이 '김'으로 시작하는</strong> 회원의 이름과, <strong>성을 뺀 부분(2번째 글자부터)</strong>을 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT name,
        SUBSTR(name, 2) AS without_surname
 FROM MEMBER
@@ -1561,13 +1347,14 @@ REGEXP_LIKE(s, '^[0-9]+$')  -- 정규식 (MySQL의 s REGEXP '...')
 - 연결은 <code>||</code>. <code>CONCAT(a,b,c)</code>처럼 3개 인자 주면 에러(Oracle CONCAT은 2개).
 - Oracle <code>LENGTH</code>는 <strong>이미 글자 수</strong>(한글도 1글자). MySQL처럼 <code>CHAR_LENGTH</code> 따로 안 씀.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: String 카테고리.</p>
-<hr />
+</div></details><hr />
 <h3 id="oracle">✅ 이 장 핵심 (Oracle)</h3>
 <ul>
 <li>날짜 범위: <strong><code>&gt;= DATE '시작' AND &lt; DATE '다음달1일'</code></strong> (인덱스 + 시간성분 안전)</li>
 <li>연/월 추출 <code>EXTRACT</code>, 포맷 <code>TO_CHAR</code>, <strong>GROUP BY엔 식 반복</strong>(별칭 불가)</li>
 <li>문자 연결 <code>||</code>, 글자 수 <code>LENGTH</code>(이미 문자 기준), 정규식 <code>REGEXP_LIKE</code></li>
-</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch11" class="chapter"><div class="chtag">CH 12</div><h1 id="sql-07-null-case-top-n">SQL 07 — NULL · CASE · 그룹별 TOP-N</h1>
+</ul><a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch11" class="chapter"><div class="chtag">CH 12</div><h1 id="sql-07-null-case-top-n">SQL 07 — NULL · CASE · 그룹별 TOP-N</h1>
 <blockquote>
 <p>NULL 처리와 조건 분기(CASE)는 잔실수 1순위. 마지막으로 그룹별 1위 뽑기를 종합.</p>
 </blockquote>
@@ -1576,7 +1363,7 @@ REGEXP_LIKE(s, '^[0-9]+$')  -- 정규식 (MySQL의 s REGEXP '...')
 <blockquote>
 <p>회원을 <strong>10대 / 20대 / 30대 이상</strong>으로 나눠 각 구간의 회원 수를 조회하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT CASE
          WHEN age &lt; 20 THEN '10대'
          WHEN age &lt; 30 THEN '20대'
@@ -1597,12 +1384,12 @@ ORDER BY age_group;
 - ⭐ <strong>Oracle은 <code>GROUP BY</code>에 별칭(<code>age_group</code>)을 못 씀</strong> → CASE식을 그대로 반복해야 함. (단 <code>ORDER BY</code>엔 별칭 사용 가능) — MySQL과 결정적 차이.</p>
 <p><strong>⚠️ 함정</strong>: 구간 겹침 주의. <code>WHEN age&lt;30</code>이 <code>age&lt;20</code>보다 아래 있어야 10대가 20대에 안 먹힘.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: "나이 정보가 없는 회원 수 구하기" 등 CASE/IS NULL 조합.</p>
-<hr />
+</div></details><hr />
 <h2 id="2-left-join-null">문제 2. 직원 부서명 표시 (LEFT JOIN + NULL 처리)</h2>
 <blockquote>
 <p><strong>모든 직원</strong>의 이름과 소속 부서명을 조회하되, 부서가 없으면 <strong>'미배정'</strong>으로 표시하세요.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT e.name,
        COALESCE(d.dept_name, '미배정') AS dept_name
 FROM EMPLOYEE e
@@ -1615,13 +1402,13 @@ ORDER BY e.emp_id;
 - 결과: 한사장 → '미배정', 나머지는 소속 부서명.</p>
 <p><strong>⚠️ 함정</strong>: <code>d.dept_name = NULL</code> (X). NULL 비교는 <code>IS NULL</code>, 치환은 Oracle에선 <code>NVL</code>/<code>COALESCE</code> (<code>IFNULL</code>은 MySQL 전용이라 오라클에서 에러).</p>
 <p><strong>🔗 프로그래머스 대응</strong>: IS NULL 카테고리.</p>
-<hr />
+</div></details><hr />
 <h2 id="3-top-n">문제 3. 부서별 최고 연봉자 (그룹별 TOP-N 종합)</h2>
 <blockquote>
 <p><strong>각 부서에서 연봉이 가장 높은 직원 1명</strong>을 뽑아 이름·부서·연봉을 조회하세요.
 동점이면 사번(emp_id)이 빠른 사람.</p>
 </blockquote>
-<p><strong>정답 (Oracle)</strong></p>
+<details class="ans"><summary>💡 정답 &amp; 해설 보기</summary><div class="inner"><p><strong>정답 (Oracle)</strong></p>
 <pre><code class="language-sql">SELECT name, dept_id, salary
 FROM (
     SELECT name, dept_id, salary,
@@ -1640,13 +1427,359 @@ ORDER BY dept_id;
 - 결과: 개발=조개발(8,000,000), 영업=윤영업(7,000,000), 인사=최인사(4,500,000).</p>
 <p><strong>⚠️ 함정</strong>: tie-breaker 없이 <code>ORDER BY salary DESC</code>만 쓰면 동점 시 누가 rn=1일지 비결정적 → 채점에서 흔들림.</p>
 <p><strong>🔗 프로그래머스 대응</strong>: JOIN/GROUP BY + 순위(고난도).</p>
-<hr />
+</div></details><hr />
 <h3 id="_1">✅ 이 장 핵심</h3>
 <ul>
 <li>NULL: 비교는 <code>IS NULL</code>, 치환은 <code>NVL</code>/<code>COALESCE</code></li>
 <li><code>CASE WHEN</code>은 조건 순서(작은 값부터), <code>ELSE</code> 잊지 말기</li>
 <li>그룹별 1위 = <strong>ROW_NUMBER + tie-breaker + rn=1</strong></li>
-</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch12" class="chapter"><div class="chtag">CH 13</div><h1 id="cs">🎤 경력직 기술면접 · CS 노트</h1>
+</ul><a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch13" class="chapter"><div class="chtag">CH 13</div><h1 id="1-sql-1-2-120">📝 실전 모의고사 #1 (SQL 1 + 알고리즘 2 · 120분)</h1>
+<blockquote>
+<p><strong>LE 실전 형식 재현.</strong> 타이머 120분을 켜고, 아래 규칙대로 진행하세요.
+답지는 문서 하단 <code>── 정답 ──</code> 아래에 있습니다. <strong>먼저 스스로 반례까지 만들어</strong> 검증한 뒤 내려가세요(LE는 점수 비공개!).</p>
+</blockquote>
+<h3 id="_1">운영 규칙</h3>
+<ul>
+<li>순서 자유. <strong>권장: SQL(30분) → 쉬운 알고리즘 → 남은 알고리즘.</strong></li>
+<li>예시 테스트케이스만 있다고 가정 → <strong>경계값(0/1/최대), 빈 입력</strong>을 직접 대입해 확인.</li>
+<li>시간 부족하면 완주 못 해도 <strong>부분 로직이라도</strong> 남기는 연습.</li>
+</ul>
+<hr />
+<h2 id="q1-sql-top-2">Q1. (SQL) 카테고리별 매출 TOP 2</h2>
+<p><code>ORDERS</code>, <code>ORDER_ITEM</code>, <code>PRODUCT</code> 사용 (<a href="sql/schema.sql">schema.sql</a>).</p>
+<blockquote>
+<p><strong>상태가 '완료'인 주문</strong>만을 대상으로, <strong>상품 카테고리별 총 매출액</strong>(수량 × 단가의 합)을 구하고,
+매출이 높은 순으로 순위를 매겨 <strong>상위 2개 카테고리</strong>의 <code>category</code>, <code>total_sales</code>, <code>rnk</code>를 조회하세요.</p>
+</blockquote>
+<p>배점 힌트: 조인 + 집계 + 윈도우함수(순위)를 한 번에 요구.</p>
+<hr />
+<h2 id="q2">Q2. (알고리즘) 나선형 행렬</h2>
+<blockquote>
+<p>정수 <code>n</code>이 주어질 때 <code>n × n</code> 행렬을 <strong>1부터 n²까지 시계방향 나선형</strong>으로 채워 <code>int[][]</code>로 반환하세요.
+(n=3 → <code>[[1,2,3],[8,9,4],[7,6,5]]</code>)</p>
+</blockquote>
+<p>제한: 1 ≤ n ≤ 300. 시간복잡도 O(n²) 목표.</p>
+<hr />
+<h2 id="q3">Q3. (알고리즘) 미로 최단 거리</h2>
+<blockquote>
+<p><code>0</code>(벽)과 <code>1</code>(길)로 이루어진 <code>maps</code>(<code>int[][]</code>)에서, 좌상단 <code>(0,0)</code>에서 우하단 <code>(R-1,C-1)</code>까지
+상하좌우로 이동하는 <strong>최소 이동 칸 수</strong>를 반환하세요. 도달 불가면 <code>-1</code>.</p>
+</blockquote>
+<p>제한: 1 ≤ R,C ≤ 100. 각 칸 이동 비용 동일.</p>
+<h2 id="_2">── 정답 ──</h2><details class="ans"><summary>💡 정답 보기 — 먼저 스스로 풀고 반례까지 만든 뒤에!</summary><div class="inner">
+<h3 id="a1-q1-sql-oracle">A1. Q1 SQL (Oracle · 결과 검증됨)</h3>
+<pre><code class="language-sql">SELECT category, total_sales, rnk
+FROM (
+    SELECT p.category,
+           SUM(oi.quantity * p.price) AS total_sales,
+           RANK() OVER (ORDER BY SUM(oi.quantity * p.price) DESC) AS rnk
+    FROM ORDERS o
+    JOIN ORDER_ITEM oi ON o.order_id = oi.order_id
+    JOIN PRODUCT p     ON oi.product_id = p.product_id
+    WHERE o.status = '완료'
+    GROUP BY p.category
+) t
+WHERE rnk &lt;= 2
+ORDER BY rnk;
+</code></pre>
+<ul>
+<li>결과: 전자(3,017,000, 1위), 도서(102,000, 2위).</li>
+<li>포인트: <strong>집계(SUM) 결과에 윈도우함수(RANK)를 얹는</strong> 2단 구조. 서브쿼리로 감싸 <code>rnk&lt;=2</code> 필터.</li>
+<li>자세한 원리 → <a href="#ch9">SQL 05 윈도우</a>, <a href="#ch7">SQL 03 JOIN</a>.</li>
+</ul>
+<h3 id="a2-q2">A2. Q2 나선형 (검증됨)</h3>
+<p>→ 전체 코드·해설: <a href="#ch2">algo/90 도형·행렬 공략 문제1</a>
+핵심: 방향배열 <code>{우,하,좌,상}</code> + "격자 밖이거나 이미 채워짐 → <code>dir=(dir+1)%4</code>".</p>
+<h3 id="a3-q3-bfs">A3. Q3 미로 BFS (검증됨)</h3>
+<p>→ 전체 코드·해설: <a href="#ch1">algo 치트시트 §BFS</a>, 실습: <code>code_pack/Day02_BFS_같은_비용의_최단_이동</code>
+핵심: 큐 + <code>dist[][]</code>(-1 초기화, 방문 겸용). 처음 도달 시가 최단. 도달 못 하면 <code>dist[R-1][C-1]</code>가 -1.</p>
+<hr />
+</div></details><h2 id="_3">채점 &amp; 복기</h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Q1: 정렬 기준·상위 N 경계(<code>&lt;=2</code>)·동점 처리 확인했나?</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Q2: n=1, n=2 같은 작은 값에서 손으로 그려 대조했나?</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Q3: 시작=도착(1×1), 도달 불가(-1), 벽으로 막힌 경우 확인했나?</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 시간 배분: SQL을 30분 안에 끊었나?</li>
+</ul>
+<blockquote>
+<p>모의고사 #2가 필요하면 code_pack <code>Day07</code>(미니 모의) / <code>Day14</code>(최종 모의) + SQL 문제집에서 안 본 유형으로 직접 조합하세요.</p>
+</blockquote><a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch0" class="chapter"><div class="chtag">부록 A</div><h1>📎 부록 A — 시험 정보 · 3주 로드맵 · 전략</h1>
+<blockquote>
+<p><strong>이 문서는 "지하철에서 폰으로 눈으로 읽는" 용도</strong>로 만들었습니다.
+짧은 문단 · 표 · 체크리스트 위주. 위에서 아래로 죽 읽으면 됩니다.
+상세 공략본은 각 섹션 끝의 링크로 연결됩니다.</p>
+</blockquote>
+<hr />
+<h2 id="0-30">0. 30초 요약 (이것만 기억)</h2>
+<ul>
+<li>플랫폼: <strong>프로그래머스 온라인</strong>, <code>class Solution</code> 제출형 (지금 <code>code_pack</code>이랑 동일)</li>
+<li>구성: <strong>SQL 1문제 + 알고리즘 2문제 (총 3문제)</strong>, 난이도 <strong>프로그래머스 Lv.2~3</strong></li>
+<li><strong>SQL DBMS = Oracle</strong> ⭐ (MySQL 문법 <code>LIMIT</code>/<code>IFNULL</code>/<code>DATE_FORMAT</code> 쓰면 에러 — <a href="#ch4">SQL 치트시트</a> 참고)</li>
+<li>제한시간: <strong>약 120분 (추정)</strong> — 셋 다 풀기엔 빡셈. <strong>SQL에서 시간 빨리는 게 최대 함정</strong></li>
+<li>채점: <strong>예시 테스트케이스만 보이고, 제출 후 점수 비공개</strong> → <em>내가 반례를 직접 만들어 검증해야 함</em></li>
+<li>경력직: <strong>SQL 비중 체감이 큼</strong>. 알고리즘은 "정확히 1개 완벽 + 1개 부분"만 해도 경쟁력.</li>
+</ul>
+<h3 id="_1">실전 시간 배분 전략 (경력직 안전 운영)</h3>
+<pre><code>120분 기준
+├─ 00~05분 : 3문제 전부 읽고 난이도 스캔 → 쉬운 순서 정하기
+├─ 05~35분 : SQL 먼저 (가장 확실한 득점, 30분 컷. 안 풀리면 잠깐 미루기)
+├─ 35~80분 : 알고리즘 A (자신 있는 유형부터, 45분)
+├─ 80~110분: 알고리즘 B (30분, 완주 어려우면 부분 케이스라도)
+└─110~120분: 검증 — 경계값/빈입력/최대입력 반례 직접 대입
+</code></pre>
+<blockquote>
+<p>⚠️ LE는 점수를 안 보여줌. "제출했더니 통과처럼 보임"에 속지 말 것. <strong>엣지케이스는 내 머리로 설계.</strong></p>
+</blockquote>
+<hr />
+<h2 id="1">1. 시험 스펙 (조사 결과)</h2>
+<div class="tblwrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+<th>근거 신뢰도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>플랫폼</td>
+<td>프로그래머스 온라인 (<code>class Solution</code>)</td>
+<td>높음</td>
+</tr>
+<tr>
+<td>감독</td>
+<td>웹캠/휴대폰으로 본인 촬영 프록토링 (신입 후기 기준)</td>
+<td>중간</td>
+</tr>
+<tr>
+<td>문제 수</td>
+<td>SQL 1 + 알고리즘 2 = 3문제 (일부 후기 4문제)</td>
+<td>높음</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>프로그래머스 Lv.2~3</td>
+<td>높음</td>
+</tr>
+<tr>
+<td>알고리즘 유형</td>
+<td>구현·배열, DP, DFS/그래프, 완전탐색, <strong>도형·행렬</strong></td>
+<td>높음</td>
+</tr>
+<tr>
+<td>SQL (<strong>Oracle</strong>)</td>
+<td>JOIN·서브쿼리·집계 / "함수 암기보다 연습"</td>
+<td>높음</td>
+</tr>
+<tr>
+<td>언어</td>
+<td>사전 공지, 프로그래머스 지원 언어 중 선택</td>
+<td>중간</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="2-3-d-18-d-day">2. 3주 학습 로드맵 (D-18 → D-Day)</h2>
+<p>날짜 고정이 아니라 <strong>D-day 역산</strong>입니다. 기간이 짧으면 Phase 1을 압축하세요.
+매일 자산: <code>code_pack</code>(알고리즘) + <code>prep/algo</code>(보강) + <code>prep/sql</code>(SQL).</p>
+<h3 id="phase-1-sql-d-18-d-13-6">📅 Phase 1 — 감각 회복 + SQL 시동 (D-18 ~ D-13, 6일)</h3>
+<blockquote>
+<p>목표: "손이 다시 기억나게." 알고리즘 기본기 + SQL SELECT/집계 몸풀기.</p>
+</blockquote>
+<div class="tblwrap"><table>
+<thead>
+<tr>
+<th>Day</th>
+<th>알고리즘 (code_pack 실습)</th>
+<th>SQL (매일 30분)</th>
+<th>읽을 공략본</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D-18</td>
+<td>Day01 구현·시뮬</td>
+<td>SELECT·WHERE·ORDER BY</td>
+<td><a href="#ch1">algo 치트시트 §구현</a> · <a href="#ch4">SQL 치트시트</a></td>
+</tr>
+<tr>
+<td>D-17</td>
+<td>Day02 BFS</td>
+<td>GROUP BY·HAVING</td>
+<td><a href="#ch1">치트시트 §BFS</a> · <a href="#ch6">SQL 02</a></td>
+</tr>
+<tr>
+<td>D-16</td>
+<td>Day03 DFS</td>
+<td>집계함수·DISTINCT</td>
+<td><a href="#ch1">치트시트 §DFS</a> · <a href="#ch5">SQL 01</a></td>
+</tr>
+<tr>
+<td>D-15</td>
+<td>Day04 정렬·그리디</td>
+<td>INNER JOIN</td>
+<td><a href="#ch1">치트시트 §그리디</a></td>
+</tr>
+<tr>
+<td>D-14</td>
+<td>Day05 우선순위 큐</td>
+<td>LEFT JOIN·NULL</td>
+<td><a href="#ch1">치트시트 §PQ</a> · <a href="#ch7">SQL 03 JOIN</a></td>
+</tr>
+<tr>
+<td>D-13</td>
+<td>Day06 다익스트라</td>
+<td>서브쿼리(스칼라)</td>
+<td><a href="#ch1">치트시트 §다익스트라</a> · <a href="#ch8">SQL 04</a></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="phase-2-sql-d-12-d-6-7">📅 Phase 2 — 심화 유형 + SQL 심화 + 도형 (D-12 ~ D-6, 7일)</h3>
+<blockquote>
+<p>목표: 출제 빈출 심화(DP/백트래킹/비트마스크) + LE 특화 <strong>도형·행렬</strong> + SQL 상관/윈도우.</p>
+</blockquote>
+<div class="tblwrap"><table>
+<thead>
+<tr>
+<th>Day</th>
+<th>알고리즘 (code_pack 실습)</th>
+<th>SQL</th>
+<th>읽을 공략본</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D-12</td>
+<td>Day08 기본 DP</td>
+<td>상관 서브쿼리</td>
+<td><a href="#ch1">치트시트 §DP</a> · <a href="#ch8">SQL 04</a></td>
+</tr>
+<tr>
+<td>D-11</td>
+<td>Day09 배낭 DP</td>
+<td>윈도우함수(RANK/ROW_NUMBER)</td>
+<td><a href="#ch1">치트시트 §배낭</a> · <a href="#ch9">SQL 05 윈도우</a></td>
+</tr>
+<tr>
+<td>D-10</td>
+<td>Day10 백트래킹</td>
+<td>날짜함수</td>
+<td><a href="#ch1">치트시트 §백트래킹</a> · <a href="#ch10">SQL 06</a></td>
+</tr>
+<tr>
+<td>D-9</td>
+<td>Day11 누적합·이분탐색</td>
+<td>문자열함수</td>
+<td><a href="#ch1">치트시트 §이분탐색</a> · <a href="#ch10">SQL 06</a></td>
+</tr>
+<tr>
+<td>D-8</td>
+<td><strong>도형·행렬 (신규 보강)</strong></td>
+<td>NULL·CASE·NVL</td>
+<td><a href="#ch2">90 도형·행렬 공략</a> · <a href="#ch11">SQL 07</a></td>
+</tr>
+<tr>
+<td>D-7</td>
+<td>Day12 비트마스크 BFS</td>
+<td>그룹별 TOP-N</td>
+<td><a href="#ch1">치트시트 §비트마스크</a> · <a href="#ch11">SQL 07</a></td>
+</tr>
+<tr>
+<td>D-6</td>
+<td>Day13 비트마스크 DP</td>
+<td>SQL 총복습(고득점 키트)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="phase-3-d-5-d-day-6">📅 Phase 3 — 실전화 (D-5 ~ D-Day, 6일)</h3>
+<blockquote>
+<p>목표: 시간 압박 하에서 "SQL 1 + 알고 2"를 실제로 돌려보기 + 오답 + 면접.</p>
+</blockquote>
+<div class="tblwrap"><table>
+<thead>
+<tr>
+<th>Day</th>
+<th>할 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D-5</td>
+<td><strong>실전 모의 1회</strong> (SQL1+알고2, 120분 타이머) → 오답 분석</td>
+</tr>
+<tr>
+<td>D-4</td>
+<td>틀린/막힌 유형 공략본 재독 + 재풀이</td>
+</tr>
+<tr>
+<td>D-3</td>
+<td><strong>실전 모의 2회</strong> → 시간배분 점검</td>
+</tr>
+<tr>
+<td>D-2</td>
+<td><a href="#ch12">기술면접·CS 노트</a> 정독 (경력 면접 대비)</td>
+</tr>
+<tr>
+<td>D-1</td>
+<td>치트시트 2종 + 오답노트만 가볍게. <strong>일찍 자기.</strong></td>
+</tr>
+<tr>
+<td>D-Day</td>
+<td>아침에 치트시트 훑기 → 프록토링 환경(카메라/조용한 공간) 미리 세팅</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>기간이 <strong>1주 이내</strong>면: Phase 1 스킵, [algo 치트시트] + [SQL 치트시트] + 도형 + 실전모의 1회로 압축.</p>
+</blockquote>
+<hr />
+<h2 id="4-sql">3. SQL 핵심 (경력직 최우선)</h2>
+<p>⭐ <strong>DBMS는 Oracle.</strong> 상세는 → <a href="#ch4">sql/00_SQL_치트시트.md</a>, <a href="#ch4">sql/README.md</a></p>
+<p><strong>꼭 몸에 붙여야 할 7개 패턴 (Oracle):</strong>
+1. <code>JOIN</code> — 없는 행까지 보려면 <code>LEFT JOIN</code> + <code>IS NULL</code>
+2. <code>GROUP BY … HAVING</code> — 집계 후 조건은 <code>HAVING</code>. <strong>GROUP BY엔 별칭 불가(식 반복)</strong>
+3. 상관 서브쿼리 — "각 그룹의 최댓값 행"
+4. <strong>윈도우함수</strong> — <code>ROW_NUMBER()/RANK() OVER(PARTITION BY … ORDER BY …)</code> → 그룹별 TOP-N
+5. <strong>상위 N개</strong> — <code>LIMIT</code> 없음! 정렬한 인라인뷰 + <code>ROWNUM &lt;= N</code>, 또는 <code>FETCH FIRST N ROWS ONLY</code>(12c+)
+6. 날짜/문자 — <code>TO_CHAR</code>, <code>EXTRACT</code>, <code>TO_DATE</code>, <code>||</code>(연결), <code>NVL</code>, <code>DECODE</code>, <code>REGEXP_LIKE</code>
+7. <code>NULL</code> → <code>IS NULL</code> / <code>NVL(COALESCE)</code> / <code>CASE WHEN</code></p>
+<blockquote>
+<p>⚠️ MySQL 습관(<code>LIMIT</code>,<code>IFNULL</code>,<code>DATE_FORMAT</code>,<code>YEAR()</code>,<code>CONCAT</code> 다인자) 그대로 쓰면 <strong>오라클에서 에러</strong>.
+⏱ SQL은 "정답을 한 번에" 나와야 함 → <strong>문법 암기 &lt; 손 연습</strong>.</p>
+</blockquote>
+<hr />
+<h2 id="5-cs">4. 기술면접·CS (경력 대비)</h2>
+<p>코테 통과 후 <strong>기술면접</strong>에서 나올 것들. 상세 → <a href="#ch12">interview/기술면접_CS_노트.md</a></p>
+<ul>
+<li><strong>DB</strong>: 인덱스(B-Tree/커버링), 정규화 vs 반정규화, 트랜잭션 ACID, 격리수준(4단계)과 이상현상, 실행계획 읽기, 조인 알고리즘</li>
+<li><strong>자료구조/복잡도</strong>: 해시 vs 트리, Big-O, 언제 뭘 쓰나</li>
+<li><strong>Java</strong>: GC, <code>HashMap</code> 동작, <code>equals/hashCode</code>, 불변객체, 동시성 기초</li>
+<li><strong>설계/실무</strong>: REST, 트랜잭션 경계, N+1, 캐시, 대용량 처리 경험 → 본인 프로젝트로 답변 준비</li>
+</ul>
+<hr />
+<h2 id="6">5. LE 특화 최종 체크리스트</h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>class Solution</code> 제출형 + 예시 케이스만 보임 → <strong>반례 직접 설계</strong> 습관</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> SQL 30분 컷 타이머 감각 (시간 트랩 1순위)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 도형·행렬 유형 1회 이상 손으로 완주</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 프로그래머스 <strong>SQL 고득점 키트</strong> 완주</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 프로그래머스 계정으로 <code>class Solution</code> 제출 UI 미리 익히기</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 프록토링: 조용한 공간 + 휴대폰 거치대(본인 촬영) 사전 점검</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 자주 쓰는 Java import/입출력 스니펫 손에 익히기</li>
+</ul>
+<hr />
+<h2 id="_2">📎 부록 — 참고 링크</h2>
+<ul>
+<li>프로그래머스 SQL 고득점 키트: https://school.programmers.co.kr/learn/challenges?tab=sql_practice_kit</li>
+<li>프로그래머스 코딩테스트 고득점 키트: https://school.programmers.co.kr/learn/challenges?tab=algorithm_practice_kit</li>
+<li>코테 후기(velog): https://velog.io/@kpark2000</li>
+<li>잡플래닛 면접후기: https://www.jobplanet.co.kr/companies/35657</li>
+</ul>
+<p><em>본 로드맵의 시험 스펙은 공개 후기 기반 추정입니다. 실제 공고/안내 메일이 있으면 그 기준이 우선입니다.</em></p><a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch12" class="chapter"><div class="chtag">부록 B</div><h1 id="cs">🎤 경력직 기술면접 · CS 노트</h1>
 <blockquote>
 <p>코테는 관문일 뿐, <strong>경력직은 기술면접에서 결판</strong>. 9년차라면 "안다"를 넘어 <strong>"내 프로젝트에서 이렇게 썼다"</strong>로 답해야 함.
 지하철에서 질문을 보고 <strong>머릿속으로 30초 답변</strong>을 굴려보는 용도.</p>
@@ -1664,12 +1797,7 @@ ORDER BY dept_id;
 <ul>
 <li><strong>ACID</strong>: 원자성/일관성/격리성/지속성.</li>
 <li><strong>격리수준 4단계와 이상현상</strong>:
-  | 수준 | Dirty Read | Non-repeatable | Phantom |
-  |---|---|---|---|
-  | READ UNCOMMITTED | O | O | O |
-  | READ COMMITTED | X | O | O |
-  | REPEATABLE READ (MySQL 기본) | X | X | O* |
-  | SERIALIZABLE | X | X | X |</li>
+  <div class="tblwrap"><table><thead><tr><th>수준</th><th>Dirty Read</th><th>Non-repeatable</th><th>Phantom</th></tr></thead><tbody><tr><td>READ UNCOMMITTED</td><td>O</td><td>O</td><td>O</td></tr><tr><td>READ COMMITTED</td><td>X</td><td>O</td><td>O</td></tr><tr><td>REPEATABLE READ (MySQL 기본)</td><td>X</td><td>X</td><td>O*</td></tr><tr><td>SERIALIZABLE</td><td>X</td><td>X</td><td>X</td></tr></tbody></table></div></li>
 <li>*MySQL InnoDB는 갭락으로 팬텀도 상당 부분 방지.</li>
 <li>💬 예상 Q: "동시에 같은 재고를 차감하면?" → 트랜잭션 + 비관적 락(<code>SELECT ... FOR UPDATE</code>) 또는 낙관적 락(버전 컬럼).</li>
 </ul>
@@ -1720,9 +1848,9 @@ ORDER BY dept_id;
 <li>막히면 "brute force부터 → 최적화" 순서로 진행.</li>
 </ul>
 <hr />
-<h2 id="6">6. 인성 / 컬처핏 (롯데그룹)</h2>
+<h2 id="6">6. 인성 / 컬처핏 (LE그룹)</h2>
 <ul>
-<li>지원 동기: <strong>왜 SI/롯데이노베이트인가</strong>(그룹 계열 도메인, 규모 있는 시스템, DX/클라우드 전환 등)를 본인 커리어와 연결.</li>
+<li>지원 동기: <strong>왜 SI/LE인가</strong>(그룹 계열 도메인, 규모 있는 시스템, DX/클라우드 전환 등)를 본인 커리어와 연결.</li>
 <li>이직 사유: 부정적 표현 금지 → 성장/도전 프레이밍.</li>
 <li>협업·갈등 사례, 실패와 학습 사례 각 1개씩 STAR로 준비.</li>
 <li>💬 자소서 빈출: "지식·기술 역량을 지원 직무에서 어떻게 발휘할지"(300~700자) → 코테/이 노트 내용과 일관되게.</li>
@@ -1734,80 +1862,10 @@ ORDER BY dept_id;
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 격리수준 표 + 재고차감 동시성 시나리오</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 내 프로젝트 성능개선 사례 1개(수치 포함)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 이직 사유 긍정 프레이밍 1문장</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> "왜 롯데이노베이트" 1분 답변</li>
-</ul><a class="totop" href="#top">↑ 목차</a></section><section id="ch13" class="chapter"><div class="chtag">CH 14</div><h1 id="1-sql-1-2-120">📝 실전 모의고사 #1 (SQL 1 + 알고리즘 2 · 120분)</h1>
-<blockquote>
-<p><strong>롯데이노베이트 실전 형식 재현.</strong> 타이머 120분을 켜고, 아래 규칙대로 진행하세요.
-답지는 문서 하단 <code>── 정답 ──</code> 아래에 있습니다. <strong>먼저 스스로 반례까지 만들어</strong> 검증한 뒤 내려가세요(롯데는 점수 비공개!).</p>
-</blockquote>
-<h3 id="_1">운영 규칙</h3>
-<ul>
-<li>순서 자유. <strong>권장: SQL(30분) → 쉬운 알고리즘 → 남은 알고리즘.</strong></li>
-<li>예시 테스트케이스만 있다고 가정 → <strong>경계값(0/1/최대), 빈 입력</strong>을 직접 대입해 확인.</li>
-<li>시간 부족하면 완주 못 해도 <strong>부분 로직이라도</strong> 남기는 연습.</li>
-</ul>
-<hr />
-<h2 id="q1-sql-top-2">Q1. (SQL) 카테고리별 매출 TOP 2</h2>
-<p><code>ORDERS</code>, <code>ORDER_ITEM</code>, <code>PRODUCT</code> 사용 (<a href="sql/schema.sql">schema.sql</a>).</p>
-<blockquote>
-<p><strong>상태가 '완료'인 주문</strong>만을 대상으로, <strong>상품 카테고리별 총 매출액</strong>(수량 × 단가의 합)을 구하고,
-매출이 높은 순으로 순위를 매겨 <strong>상위 2개 카테고리</strong>의 <code>category</code>, <code>total_sales</code>, <code>rnk</code>를 조회하세요.</p>
-</blockquote>
-<p>배점 힌트: 조인 + 집계 + 윈도우함수(순위)를 한 번에 요구.</p>
-<hr />
-<h2 id="q2">Q2. (알고리즘) 나선형 행렬</h2>
-<blockquote>
-<p>정수 <code>n</code>이 주어질 때 <code>n × n</code> 행렬을 <strong>1부터 n²까지 시계방향 나선형</strong>으로 채워 <code>int[][]</code>로 반환하세요.
-(n=3 → <code>[[1,2,3],[8,9,4],[7,6,5]]</code>)</p>
-</blockquote>
-<p>제한: 1 ≤ n ≤ 300. 시간복잡도 O(n²) 목표.</p>
-<hr />
-<h2 id="q3">Q3. (알고리즘) 미로 최단 거리</h2>
-<blockquote>
-<p><code>0</code>(벽)과 <code>1</code>(길)로 이루어진 <code>maps</code>(<code>int[][]</code>)에서, 좌상단 <code>(0,0)</code>에서 우하단 <code>(R-1,C-1)</code>까지
-상하좌우로 이동하는 <strong>최소 이동 칸 수</strong>를 반환하세요. 도달 불가면 <code>-1</code>.</p>
-</blockquote>
-<p>제한: 1 ≤ R,C ≤ 100. 각 칸 이동 비용 동일.</p>
-<h2 id="-">---</h2>
-<h2 id="_2">── 정답 ──</h2>
-<h3 id="a1-q1-sql-oracle">A1. Q1 SQL (Oracle · 결과 검증됨)</h3>
-<pre><code class="language-sql">SELECT category, total_sales, rnk
-FROM (
-    SELECT p.category,
-           SUM(oi.quantity * p.price) AS total_sales,
-           RANK() OVER (ORDER BY SUM(oi.quantity * p.price) DESC) AS rnk
-    FROM ORDERS o
-    JOIN ORDER_ITEM oi ON o.order_id = oi.order_id
-    JOIN PRODUCT p     ON oi.product_id = p.product_id
-    WHERE o.status = '완료'
-    GROUP BY p.category
-) t
-WHERE rnk &lt;= 2
-ORDER BY rnk;
-</code></pre>
-<ul>
-<li>결과: 전자(3,017,000, 1위), 도서(102,000, 2위).</li>
-<li>포인트: <strong>집계(SUM) 결과에 윈도우함수(RANK)를 얹는</strong> 2단 구조. 서브쿼리로 감싸 <code>rnk&lt;=2</code> 필터.</li>
-<li>자세한 원리 → <a href="#ch9">SQL 05 윈도우</a>, <a href="#ch7">SQL 03 JOIN</a>.</li>
-</ul>
-<h3 id="a2-q2">A2. Q2 나선형 (검증됨)</h3>
-<p>→ 전체 코드·해설: <a href="#ch2">algo/90 도형·행렬 공략 문제1</a>
-핵심: 방향배열 <code>{우,하,좌,상}</code> + "격자 밖이거나 이미 채워짐 → <code>dir=(dir+1)%4</code>".</p>
-<h3 id="a3-q3-bfs">A3. Q3 미로 BFS (검증됨)</h3>
-<p>→ 전체 코드·해설: <a href="#ch1">algo 치트시트 §BFS</a>, 실습: <code>code_pack/Day02_BFS_같은_비용의_최단_이동</code>
-핵심: 큐 + <code>dist[][]</code>(-1 초기화, 방문 겸용). 처음 도달 시가 최단. 도달 못 하면 <code>dist[R-1][C-1]</code>가 -1.</p>
-<hr />
-<h2 id="_3">채점 &amp; 복기</h2>
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Q1: 정렬 기준·상위 N 경계(<code>&lt;=2</code>)·동점 처리 확인했나?</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Q2: n=1, n=2 같은 작은 값에서 손으로 그려 대조했나?</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Q3: 시작=도착(1×1), 도달 불가(-1), 벽으로 막힌 경우 확인했나?</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 시간 배분: SQL을 30분 안에 끊었나?</li>
-</ul>
-<blockquote>
-<p>모의고사 #2가 필요하면 code_pack <code>Day07</code>(미니 모의) / <code>Day14</code>(최종 모의) + SQL 문제집에서 안 본 유형으로 직접 조합하세요.</p>
-</blockquote><a class="totop" href="#top">↑ 목차</a></section><section id="ch14" class="chapter"><div class="chtag">CH 15</div><pre><code class='language-sql'>-- ============================================================
---  롯데이노베이트 SQL 연습용 스키마 (⭐ Oracle 기준)
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> "왜 LE" 1분 답변</li>
+</ul><a class="totop" href="#top">↑ 목차</a></section>
+<section id="ch14" class="chapter"><div class="chtag">부록 C</div><h1>📦 부록 C — 연습 스키마 (Oracle)</h1><blockquote><p>모든 SQL 문제가 쓰는 연습용 테이블·데이터. Oracle Live SQL이나 dbfiddle(Oracle)에 통째로 붙여넣고 답지를 직접 돌려보세요.</p></blockquote><pre><code class='language-sql'>-- ============================================================
+--  LE SQL 연습용 스키마 (⭐ Oracle 기준)
 --  전자상거래(회원/상품/주문) + 인사(부서/직원) 두 도메인.
 --  모든 공략본 문제는 이 스키마를 사용합니다.
 --  * 최초 실행 시 DROP에서 ORA-00942(테이블 없음)가 나면 무시하세요.
@@ -1927,4 +1985,11 @@ INSERT INTO EMPLOYEE VALUES (7,&#x27;최인사&#x27;,3,4500000,1,DATE &#x27;2022
 
 COMMIT;
 </code></pre><a class="totop" href="#top">↑ 목차</a></section>
+<div class="fab"><button id="toggleAns" type="button">정답 모두 펼치기</button><a href="#top">↑ 목차</a></div>
+<script>
+(function(){var b=document.getElementById('toggleAns'),o=false;
+b.addEventListener('click',function(){o=!o;
+document.querySelectorAll('details.ans').forEach(function(d){d.open=o;});
+b.textContent=o?'정답 모두 접기':'정답 모두 펼치기';});})();
+</script>
 </div></body></html>

@@ -1,6 +1,6 @@
 # 🗄️ SQL 치트시트 (⭐ Oracle)
 
-> 롯데 코테 SQL은 **Oracle**. MySQL 습관(LIMIT/IFNULL/DATE_FORMAT)이 그대로 나가면 에러.
+> LE 코테 SQL은 **Oracle**. MySQL 습관(LIMIT/IFNULL/DATE_FORMAT)이 그대로 나가면 에러.
 > 지하철에서 이 한 장만 반복해서 눈에 바르면 Lv.2~3 SQL은 대부분 커버.
 
 ## 1. 절 실행 순서 (⭐ 가장 중요)
